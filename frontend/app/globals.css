@@ -1,0 +1,58 @@
+@import "tailwindcss";
+
+@theme {
+  --color-navy: #0b1f3a;
+  --color-navy2: #13294b;
+  --color-accent: #1a56b0;
+  --color-accent2: #2b6fd6;
+}
+
+:root {
+  --background: #eef1f6;
+  --foreground: #1a2435;
+  --navy: #0b1f3a;
+  --navy2: #13294b;
+  --accent: #1a56b0;
+  --accent2: #2b6fd6;
+  --card: #ffffff;
+  --line: #d7dde8;
+  --line2: #e7ecf3;
+  --muted: #697587;
+  --good: #0f6e4d;
+  --warn: #8a5a0b;
+  --bad: #9b1c1c;
+}
+
+body {
+  @apply bg-[var(--background)] text-[var(--foreground)] font-sans antialiased text-[13px] leading-relaxed;
+}
+
+.btn-primary {
+  @apply bg-[var(--accent2)] hover:bg-[#3a82ea] text-white font-semibold py-2 px-4 rounded-md transition-all;
+}
+
+.btn-secondary {
+  @apply bg-[var(--navy2)] hover:bg-[#1d3e6e] text-white font-semibold py-2 px-4 rounded-md transition-all;
+}
+
+.card-container {
+  @apply bg-white border border-[var(--line)] rounded-xl shadow-sm overflow-hidden;
+}
+
+.num-tabular {
+  font-variant-numeric: tabular-nums;
+}
+
+::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+
+::-webkit-scrollbar-thumb {
+  background: #c3cdda;
+  border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: #aab6c6;
+}
