@@ -62,6 +62,7 @@ export interface Sanction {
   grantAmount: number;
   agreementDate: string;
   noOfPrincipalRepayments: number;
+  loanTenorMonths: number;
   status: string;
 }
 

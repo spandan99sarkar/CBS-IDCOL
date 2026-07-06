@@ -39,6 +39,10 @@ export const routes: Routes = [
       {
         path: 'collections',
         loadComponent: () => import('./features/collections/collections.component').then((m) => m.CollectionsComponent)
+      },
+      {
+        path: 'classification',
+        loadComponent: () => import('./features/classification/classification.component').then((m) => m.ClassificationComponent)
       }
     ]
   },

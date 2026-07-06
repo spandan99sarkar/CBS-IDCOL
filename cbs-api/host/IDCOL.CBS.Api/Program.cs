@@ -47,6 +47,7 @@ var partyKycAssembly = typeof(IDCOL.CBS.PartyKyc.Application.Customers.CreateCus
 var creditSanctionAssembly = typeof(IDCOL.CBS.CreditSanction.Application.Sanctions.CreateSanctionCommand).Assembly;
 var disbursementAssembly = typeof(IDCOL.CBS.Disbursement.Application.Commands.InitiateDisbursementCommand).Assembly;
 var collectionAssembly = typeof(IDCOL.CBS.Collection.Application.Commands.EnterReceiptCommand).Assembly;
+var classificationAssembly = typeof(IDCOL.CBS.Classification.Application.Commands.RunClassificationCommand).Assembly;
 builder.Services.AddMediatR(cfg =>
 {
     cfg.RegisterServicesFromAssembly(systemAdminAssembly);
@@ -56,6 +57,7 @@ builder.Services.AddMediatR(cfg =>
     cfg.RegisterServicesFromAssembly(creditSanctionAssembly);
     cfg.RegisterServicesFromAssembly(disbursementAssembly);
     cfg.RegisterServicesFromAssembly(collectionAssembly);
+    cfg.RegisterServicesFromAssembly(classificationAssembly);
 });
 builder.Services.AddValidatorsFromAssembly(systemAdminAssembly);
 builder.Services.AddValidatorsFromAssembly(productConfigAssembly);
@@ -137,6 +139,14 @@ static async Task EnsureLocalDevDatabaseAsync(IServiceProvider services, IConfig
     // Each module DbContext owns its own dev SQLite file, so EnsureCreated works per file.
     var lifecycleDb = scope.ServiceProvider.GetRequiredService<LoanLifecycleDbContext>();
     await lifecycleDb.Database.EnsureCreatedAsync();
+
+    // Seed the DFIM 04/2021 classification threshold matrix + provisioning rates (config-driven).
+    if (!await lifecycleDb.ClassificationThresholds.AnyAsync())
+    {
+        lifecycleDb.ClassificationThresholds.AddRange(IDCOL.CBS.Classification.Domain.DfimSeed.Thresholds());
+        lifecycleDb.ProvisioningRates.AddRange(IDCOL.CBS.Classification.Domain.DfimSeed.Rates());
+        await lifecycleDb.SaveChangesAsync();
+    }
 
     if (await dbContext.Users.AnyAsync())
     {

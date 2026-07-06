@@ -1,3 +1,4 @@
+using IDCOL.CBS.Classification.Domain;
 using IDCOL.CBS.Collection.Domain;
 using IDCOL.CBS.CreditSanction.Domain;
 using IDCOL.CBS.Disbursement.Domain;
@@ -24,6 +25,9 @@ public class LoanLifecycleDbContext : DbContext
     public DbSet<LoanAgreement> LoanAgreements => Set<LoanAgreement>();
     public DbSet<DisbursementRequest> DisbursementRequests => Set<DisbursementRequest>();
     public DbSet<Receipt> Receipts => Set<Receipt>();
+    public DbSet<ClassificationThreshold> ClassificationThresholds => Set<ClassificationThreshold>();
+    public DbSet<ProvisioningRate> ProvisioningRates => Set<ProvisioningRate>();
+    public DbSet<LoanClassification> LoanClassifications => Set<LoanClassification>();
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {

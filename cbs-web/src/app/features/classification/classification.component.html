@@ -1,0 +1,95 @@
+<h1 class="cbs-h1">Classification &amp; Provisioning</h1>
+<p class="cbs-lede">
+  Bangladesh Bank DFIM Circular 04/2021. The thresholds (Standard / SMA / Sub-Standard / Doubtful /
+  Bad-Loss by finance type and tenor) and provisioning rates are config-driven — the engine reads
+  them from the database, never hardcoded. Outstanding is computed as disbursed − principal collected.
+</p>
+
+<section class="cbs-panel">
+  <div class="cbs-panel-head">
+    <h2>Worklist — disbursed loans ({{ candidates().length }})</h2>
+    <div style="display:flex; gap:0.75rem; align-items:center">
+      <label style="font-size:0.75rem; color:#737373">As of</label>
+      <input type="date" [(ngModel)]="asOfDate" style="padding:0.4rem 0.6rem; border:1px solid #d4d4d4; border-radius:2px" />
+      @if (canRun()) {
+        <button class="cbs-btn" (click)="run()" [disabled]="busy() || candidates().length === 0">
+          {{ busy() ? 'Running…' : 'Run classification' }}
+        </button>
+      }
+    </div>
+  </div>
+
+  @if (candidates().length === 0) {
+    <div class="cbs-empty">No disbursed loans yet — disburse a loan to populate the worklist.</div>
+  } @else {
+    <p class="cbs-lede" style="margin:0 0 0.75rem">
+      Enter each loan's period of arrears (overdue months), interest suspense, and eligible collateral,
+      then run the engine. In production these come from the schedule/aging and security modules.
+    </p>
+    <div class="cbs-table-scroll">
+      <table class="cbs-table">
+        <thead>
+          <tr>
+            <th>Account</th><th>Project</th><th>Finance</th><th class="cbs-num">Tenor (mo)</th>
+            <th class="cbs-num">Outstanding</th><th class="cbs-num">Overdue (mo)</th>
+            <th class="cbs-num">Int. Suspense</th><th class="cbs-num">Elig. Collateral</th><th>CMSME</th>
+          </tr>
+        </thead>
+        <tbody>
+          @for (c of candidates(); track c.accountId) {
+            <tr>
+              <td class="cbs-mono">{{ c.accountRef }}</td>
+              <td>{{ c.projectName }}</td>
+              <td>{{ c.financeType }}</td>
+              <td class="cbs-num">{{ c.tenorMonths }}</td>
+              <td class="cbs-num cbs-mono">{{ c.currency }} {{ c.outstanding | number:'1.2-2' }}</td>
+              <td class="cbs-num"><input type="number" step="0.5" [(ngModel)]="c.overdueMonths" style="width:80px; text-align:right" /></td>
+              <td class="cbs-num"><input type="number" [(ngModel)]="c.interestSuspense" style="width:120px; text-align:right" /></td>
+              <td class="cbs-num"><input type="number" [(ngModel)]="c.eligibleCollateral" style="width:120px; text-align:right" /></td>
+              <td><input type="checkbox" [(ngModel)]="c.isCmsme" /></td>
+            </tr>
+          }
+        </tbody>
+      </table>
+    </div>
+  }
+  @if (errorMessage()) { <div class="cbs-error">{{ errorMessage() }}</div> }
+</section>
+
+@if (results().length > 0) {
+  <section class="cbs-panel">
+    <div class="totals" style="display:flex; flex-wrap:wrap; gap:2rem; margin-bottom:1.25rem; padding-bottom:1.25rem; border-bottom:1px solid #e5e5e5">
+      <div><div style="font-size:0.65rem; font-weight:700; text-transform:uppercase; letter-spacing:0.06em; color:#a3a3a3">As of</div><div style="font-size:1.05rem; font-weight:600">{{ results()[0].asOfDate }}</div></div>
+      <div><div style="font-size:0.65rem; font-weight:700; text-transform:uppercase; letter-spacing:0.06em; color:#a3a3a3">Total Outstanding</div><div class="cbs-mono" style="font-size:1.05rem; font-weight:600">{{ totals().outstanding | number:'1.2-2' }}</div></div>
+      <div><div style="font-size:0.65rem; font-weight:700; text-transform:uppercase; letter-spacing:0.06em; color:#a3a3a3">Provision Required</div><div class="cbs-mono" style="font-size:1.05rem; font-weight:600">{{ totals().provision | number:'1.2-2' }}</div></div>
+      <div><div style="font-size:0.65rem; font-weight:700; text-transform:uppercase; letter-spacing:0.06em; color:#a3a3a3">Classified accounts</div><div style="font-size:1.05rem; font-weight:600">{{ totals().classified }}</div></div>
+    </div>
+
+    <div class="cbs-panel-head"><h2>Classification result (latest run)</h2></div>
+    <div class="cbs-table-scroll">
+      <table class="cbs-table">
+        <thead>
+          <tr>
+            <th>Account</th><th>Project</th><th class="cbs-num">Outstanding</th><th class="cbs-num">Overdue (mo)</th>
+            <th>Status</th><th>Provision</th><th class="cbs-num">Rate %</th><th class="cbs-num">Base</th><th class="cbs-num">Provision Required</th>
+          </tr>
+        </thead>
+        <tbody>
+          @for (r of results(); track r.id) {
+            <tr>
+              <td class="cbs-mono">{{ r.accountRef }}</td>
+              <td>{{ r.projectName }}</td>
+              <td class="cbs-num cbs-mono">{{ r.outstanding | number:'1.2-2' }}</td>
+              <td class="cbs-num">{{ r.overdueMonths }}</td>
+              <td><span class="cbs-badge" [class]="'cbs-badge ' + badgeClass(r.status)">{{ r.status }}</span></td>
+              <td>{{ r.provisionType }}</td>
+              <td class="cbs-num">{{ r.provisionRatePercent | number:'1.2-2' }}</td>
+              <td class="cbs-num cbs-mono">{{ r.provisionBase | number:'1.2-2' }}</td>
+              <td class="cbs-num cbs-mono">{{ r.provisionRequired | number:'1.2-2' }}</td>
+            </tr>
+          }
+        </tbody>
+      </table>
+    </div>
+  </section>
+}

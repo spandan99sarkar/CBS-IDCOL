@@ -12,6 +12,8 @@
     <ProjectReference Include="..\..\Disbursement\IDCOL.CBS.Disbursement.Application\IDCOL.CBS.Disbursement.Application.csproj" />
     <ProjectReference Include="..\..\Collection\IDCOL.CBS.Collection.Domain\IDCOL.CBS.Collection.Domain.csproj" />
     <ProjectReference Include="..\..\Collection\IDCOL.CBS.Collection.Application\IDCOL.CBS.Collection.Application.csproj" />
+    <ProjectReference Include="..\..\Classification\IDCOL.CBS.Classification.Domain\IDCOL.CBS.Classification.Domain.csproj" />
+    <ProjectReference Include="..\..\Classification\IDCOL.CBS.Classification.Application\IDCOL.CBS.Classification.Application.csproj" />
   </ItemGroup>
 
   <ItemGroup>

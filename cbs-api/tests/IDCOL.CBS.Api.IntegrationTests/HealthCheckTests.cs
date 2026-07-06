@@ -1,14 +1,13 @@
 using System.Net;
-using Microsoft.AspNetCore.Mvc.Testing;
 using Xunit;
 
 namespace IDCOL.CBS.Api.IntegrationTests;
 
-public class HealthCheckTests : IClassFixture<WebApplicationFactory<Program>>
+public class HealthCheckTests : IClassFixture<IdcolApiFactory>
 {
-    private readonly WebApplicationFactory<Program> _factory;
+    private readonly IdcolApiFactory _factory;
 
-    public HealthCheckTests(WebApplicationFactory<Program> factory) => _factory = factory;
+    public HealthCheckTests(IdcolApiFactory factory) => _factory = factory;
 
     [Fact]
     public async Task GetHealth_ReturnsOkWithHealthyStatus()
