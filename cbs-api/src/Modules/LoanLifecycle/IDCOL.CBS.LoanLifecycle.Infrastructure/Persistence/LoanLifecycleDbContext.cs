@@ -1,3 +1,4 @@
+using IDCOL.CBS.Collection.Domain;
 using IDCOL.CBS.CreditSanction.Domain;
 using IDCOL.CBS.Disbursement.Domain;
 using IDCOL.CBS.PartyKyc.Domain;
@@ -22,6 +23,7 @@ public class LoanLifecycleDbContext : DbContext
     public DbSet<Customer> Customers => Set<Customer>();
     public DbSet<LoanAgreement> LoanAgreements => Set<LoanAgreement>();
     public DbSet<DisbursementRequest> DisbursementRequests => Set<DisbursementRequest>();
+    public DbSet<Receipt> Receipts => Set<Receipt>();
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {

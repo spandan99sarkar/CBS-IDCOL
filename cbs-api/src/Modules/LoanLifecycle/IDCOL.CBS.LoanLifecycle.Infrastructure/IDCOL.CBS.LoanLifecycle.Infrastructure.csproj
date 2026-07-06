@@ -10,6 +10,8 @@
     <ProjectReference Include="..\..\..\Shared\IDCOL.CBS.BuildingBlocks.Application\IDCOL.CBS.BuildingBlocks.Application.csproj" />
     <ProjectReference Include="..\..\Disbursement\IDCOL.CBS.Disbursement.Domain\IDCOL.CBS.Disbursement.Domain.csproj" />
     <ProjectReference Include="..\..\Disbursement\IDCOL.CBS.Disbursement.Application\IDCOL.CBS.Disbursement.Application.csproj" />
+    <ProjectReference Include="..\..\Collection\IDCOL.CBS.Collection.Domain\IDCOL.CBS.Collection.Domain.csproj" />
+    <ProjectReference Include="..\..\Collection\IDCOL.CBS.Collection.Application\IDCOL.CBS.Collection.Application.csproj" />
   </ItemGroup>
 
   <ItemGroup>

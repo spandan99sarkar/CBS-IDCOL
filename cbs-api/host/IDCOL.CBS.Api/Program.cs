@@ -46,6 +46,7 @@ var productConfigAssembly = typeof(IDCOL.CBS.ProductConfig.Application.Products.
 var partyKycAssembly = typeof(IDCOL.CBS.PartyKyc.Application.Customers.CreateCustomerCommand).Assembly;
 var creditSanctionAssembly = typeof(IDCOL.CBS.CreditSanction.Application.Sanctions.CreateSanctionCommand).Assembly;
 var disbursementAssembly = typeof(IDCOL.CBS.Disbursement.Application.Commands.InitiateDisbursementCommand).Assembly;
+var collectionAssembly = typeof(IDCOL.CBS.Collection.Application.Commands.EnterReceiptCommand).Assembly;
 builder.Services.AddMediatR(cfg =>
 {
     cfg.RegisterServicesFromAssembly(systemAdminAssembly);
@@ -54,12 +55,14 @@ builder.Services.AddMediatR(cfg =>
     cfg.RegisterServicesFromAssembly(partyKycAssembly);
     cfg.RegisterServicesFromAssembly(creditSanctionAssembly);
     cfg.RegisterServicesFromAssembly(disbursementAssembly);
+    cfg.RegisterServicesFromAssembly(collectionAssembly);
 });
 builder.Services.AddValidatorsFromAssembly(systemAdminAssembly);
 builder.Services.AddValidatorsFromAssembly(productConfigAssembly);
 builder.Services.AddValidatorsFromAssembly(partyKycAssembly);
 builder.Services.AddValidatorsFromAssembly(creditSanctionAssembly);
 builder.Services.AddValidatorsFromAssembly(disbursementAssembly);
+builder.Services.AddValidatorsFromAssembly(collectionAssembly);
 
 // Pipeline order = outer-to-inner: validate input, then check maker-checker authorization,
 // then run the handler + commit its transaction, THEN write the audit row (so the log reflects

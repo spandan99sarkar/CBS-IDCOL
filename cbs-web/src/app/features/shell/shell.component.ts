@@ -40,12 +40,16 @@ export class ShellComponent {
       label: 'CAD',
       items: [
         { label: 'Disbursements', route: '/disbursements', enabled: true },
+        { label: 'Collections', route: '/collections', enabled: true },
         { label: 'Repayment Schedule', route: '/repayment-schedule', enabled: true }
       ]
     },
     {
       label: 'Accounts',
-      items: [{ label: 'Disbursement Posting', route: '/disbursements', enabled: true }]
+      items: [
+        { label: 'Disbursement Posting', route: '/disbursements', enabled: true },
+        { label: 'Collection Posting', route: '/collections', enabled: true }
+      ]
     }
   ];
 
