@@ -31,3 +31,10 @@ next-env.d.ts
 .idea/
 .vscode/
 .trae/
+.vs/
+
+# .NET
+bin/
+obj/
+*.user
+*.suo
