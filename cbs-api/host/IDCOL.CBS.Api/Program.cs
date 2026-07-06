@@ -31,11 +31,15 @@ builder.Services.AddSystemAdminInfrastructure(builder.Configuration);
 builder.Services.AddHttpContextAccessor();
 builder.Services.AddScoped<ICurrentUserAccessor, HttpContextCurrentUserAccessor>();
 
-// Every bounded context's Application assembly is registered here as the module set grows -
-// for Phase 0 that is just SystemAdmin.
-var applicationAssembly = typeof(CreateUserCommand).Assembly;
-builder.Services.AddMediatR(cfg => cfg.RegisterServicesFromAssembly(applicationAssembly));
-builder.Services.AddValidatorsFromAssembly(applicationAssembly);
+// Every bounded context's Application assembly is registered here as the module set grows.
+var systemAdminAssembly = typeof(CreateUserCommand).Assembly;
+var repaymentEngineAssembly = typeof(IDCOL.CBS.RepaymentEngine.Application.ComputeSchedule.ComputeScheduleQuery).Assembly;
+builder.Services.AddMediatR(cfg =>
+{
+    cfg.RegisterServicesFromAssembly(systemAdminAssembly);
+    cfg.RegisterServicesFromAssembly(repaymentEngineAssembly);
+});
+builder.Services.AddValidatorsFromAssembly(systemAdminAssembly);
 
 // Pipeline order = outer-to-inner: validate input, then check maker-checker authorization,
 // then run the handler + commit its transaction, THEN write the audit row (so the log reflects

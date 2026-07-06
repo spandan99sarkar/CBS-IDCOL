@@ -14,6 +14,11 @@ export const routes: Routes = [
       {
         path: '',
         loadComponent: () => import('./features/dashboard/dashboard.component').then((m) => m.DashboardComponent)
+      },
+      {
+        path: 'repayment-schedule',
+        loadComponent: () =>
+          import('./features/repayment-schedule/repayment-schedule.component').then((m) => m.RepaymentScheduleComponent)
       }
     ]
   },

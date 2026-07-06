@@ -37,7 +37,7 @@ export class ShellComponent {
       label: 'CAD',
       items: [
         { label: 'Disbursement Review', route: '/', enabled: false },
-        { label: 'Repayment Schedule', route: '/', enabled: false }
+        { label: 'Repayment Schedule', route: '/repayment-schedule', enabled: true }
       ]
     },
     {

@@ -20,6 +20,7 @@
     <ProjectReference Include="..\..\src\Modules\SystemAdmin\IDCOL.CBS.SystemAdmin.Application\IDCOL.CBS.SystemAdmin.Application.csproj" />
     <ProjectReference Include="..\..\src\Modules\SystemAdmin\IDCOL.CBS.SystemAdmin.Infrastructure\IDCOL.CBS.SystemAdmin.Infrastructure.csproj" />
     <ProjectReference Include="..\..\src\Shared\IDCOL.CBS.BuildingBlocks.Application\IDCOL.CBS.BuildingBlocks.Application.csproj" />
+    <ProjectReference Include="..\..\src\Modules\RepaymentEngine\IDCOL.CBS.RepaymentEngine.Application\IDCOL.CBS.RepaymentEngine.Application.csproj" />
   </ItemGroup>
 
 </Project>

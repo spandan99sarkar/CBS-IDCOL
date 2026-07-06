@@ -1,0 +1,120 @@
+<h1>Repayment Schedule Engine</h1>
+<p class="lede">
+  The heart of the CBS. Load any of IDCOL's 19 real borrower loans and the .NET engine reproduces
+  its exact schedule — annuity, level principal, scheduled amounts, capitalization, floating rates,
+  and multi-tranche disbursements all included.
+</p>
+
+<section class="panel">
+  <div class="field">
+    <label for="example">Borrower example</label>
+    <select id="example" [ngModel]="selectedKey()" (ngModelChange)="onSelectExample($event)">
+      <option value="" disabled>Select a real IDCOL borrower…</option>
+      @for (ex of examples(); track ex.key) {
+        <option [value]="ex.key">{{ ex.label }}</option>
+      }
+    </select>
+  </div>
+
+  @if (params()) {
+    <div class="params-grid">
+      <div class="field">
+        <label>Project</label>
+        <input type="text" [(ngModel)]="form.projectName" />
+      </div>
+      <div class="field">
+        <label>Currency</label>
+        <input type="text" [(ngModel)]="form.currency" />
+      </div>
+      <div class="field">
+        <label>Loan Amount</label>
+        <input type="number" [(ngModel)]="form.loanAmount" />
+      </div>
+      <div class="field">
+        <label>Interest Rate (%)</label>
+        <input type="number" step="0.0001" [(ngModel)]="form.interestRatePercent" />
+      </div>
+      <div class="field">
+        <label>Day Count Basis</label>
+        <select [(ngModel)]="form.dayCountBasis">
+          <option [ngValue]="360">360</option>
+          <option [ngValue]="364">364</option>
+          <option [ngValue]="365">365</option>
+        </select>
+      </div>
+      <div class="field">
+        <label>Installments</label>
+        <input type="number" [(ngModel)]="form.numInstallments" />
+      </div>
+      <div class="field">
+        <label>Principal Type</label>
+        <select [(ngModel)]="form.principalType">
+          @for (t of principalTypes; track t) {
+            <option [value]="t">{{ t }}</option>
+          }
+        </select>
+      </div>
+      <div class="field">
+        <label>Payment Frequency (per yr)</label>
+        <select [(ngModel)]="form.paymentFrequency">
+          <option [ngValue]="1">1 (Annual)</option>
+          <option [ngValue]="2">2 (Semi-annual)</option>
+          <option [ngValue]="4">4 (Quarterly)</option>
+          <option [ngValue]="12">12 (Monthly)</option>
+        </select>
+      </div>
+    </div>
+
+    <button class="generate" (click)="generate()" [disabled]="computing()">
+      {{ computing() ? 'Computing…' : 'Generate schedule' }}
+    </button>
+  }
+
+  @if (errorMessage()) {
+    <div class="error">{{ errorMessage() }}</div>
+  }
+</section>
+
+@if (schedule().length > 0) {
+  <section class="panel">
+    <div class="totals">
+      <div><span class="label">Installments</span><span class="value">{{ schedule().length }}</span></div>
+      <div><span class="label">Total Interest</span><span class="value mono">{{ totals().interest | number:'1.2-2' }}</span></div>
+      <div><span class="label">Total Principal</span><span class="value mono">{{ totals().principal | number:'1.2-2' }}</span></div>
+      <div><span class="label">Total Debt Service</span><span class="value mono">{{ totals().tds | number:'1.2-2' }}</span></div>
+    </div>
+
+    <div class="table-scroll">
+      <table>
+        <thead>
+          <tr>
+            <th>#</th>
+            <th>Pay Date</th>
+            <th class="num">Days</th>
+            <th class="num">Opening Balance</th>
+            <th class="num">Rate %</th>
+            <th class="num">Interest</th>
+            <th class="num">Principal</th>
+            <th class="num">Debt Service</th>
+            <th class="num">Closing Balance</th>
+          </tr>
+        </thead>
+        <tbody>
+          @for (row of schedule(); track row.idx) {
+            <tr [class.grace]="row.isGrace" [class.cap]="row.isCapRow">
+              <td>{{ row.idx + 1 }}</td>
+              <td class="mono">{{ isoDate(row.payDate) }}</td>
+              <td class="num">{{ row.days }}</td>
+              <td class="num mono">{{ row.openingBal | number:'1.2-2' }}</td>
+              <td class="num mono">{{ row.periodRate * 100 | number:'1.2-4' }}</td>
+              <td class="num mono">{{ row.interest | number:'1.2-2' }}</td>
+              <td class="num mono">{{ row.principal | number:'1.2-2' }}</td>
+              <td class="num mono">{{ row.tds | number:'1.2-2' }}</td>
+              <td class="num mono">{{ row.closingBal | number:'1.2-2' }}</td>
+            </tr>
+          }
+        </tbody>
+      </table>
+    </div>
+  </section>
+}
