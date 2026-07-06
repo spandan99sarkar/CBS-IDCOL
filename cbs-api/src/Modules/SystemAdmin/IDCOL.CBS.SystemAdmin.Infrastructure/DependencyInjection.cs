@@ -15,8 +15,25 @@ public static class DependencyInjection
     public static IServiceCollection AddSystemAdminInfrastructure(
         this IServiceCollection services, IConfiguration configuration)
     {
+        // Oracle is the real target per the architecture plan. This SQLite branch exists only
+        // so the app is runnable end-to-end without provisioning an Oracle instance first - it
+        // must be explicitly opted into via config (never inferred from a missing/bad connection
+        // string) so a real Oracle misconfiguration in a non-dev environment fails loudly instead
+        // of silently falling back to a throwaway local file.
+        var useSqliteForLocalDev = configuration.GetValue<bool>("Database:UseSqliteForLocalDevelopment");
+
         services.AddDbContext<SystemAdminDbContext>(options =>
-            options.UseOracle(configuration.GetConnectionString("SystemAdmin")));
+        {
+            if (useSqliteForLocalDev)
+            {
+                options.UseSqlite(configuration.GetConnectionString("SystemAdminSqlite")
+                    ?? "Data Source=cbs-dev.db");
+            }
+            else
+            {
+                options.UseOracle(configuration.GetConnectionString("SystemAdmin"));
+            }
+        });
 
         services.Configure<JwtOptions>(configuration.GetSection("Jwt"));
 
