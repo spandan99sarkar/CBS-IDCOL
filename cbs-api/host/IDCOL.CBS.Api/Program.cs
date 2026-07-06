@@ -1,8 +1,11 @@
 using System.Text;
 using FluentValidation;
+using IDCOL.CBS.Api.Infrastructure;
 using IDCOL.CBS.Api.Security;
 using IDCOL.CBS.BuildingBlocks.Application.Abstractions;
 using IDCOL.CBS.BuildingBlocks.Application.Behaviors;
+using IDCOL.CBS.LoanLifecycle.Infrastructure;
+using IDCOL.CBS.LoanLifecycle.Infrastructure.Persistence;
 using IDCOL.CBS.SystemAdmin.Application.Abstractions;
 using IDCOL.CBS.SystemAdmin.Application.Users.Commands.CreateUser;
 using IDCOL.CBS.SystemAdmin.Domain.Entities;
@@ -27,6 +30,11 @@ builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
 builder.Services.AddSystemAdminInfrastructure(builder.Configuration);
+builder.Services.AddLoanLifecycleInfrastructure(builder.Configuration);
+
+// One commit point across every module's DbContext (see CompositeUnitOfWork). Registered after
+// the module infrastructure so it overrides the single-context UnitOfWork from SystemAdmin.
+builder.Services.AddScoped<IUnitOfWork, CompositeUnitOfWork>();
 
 builder.Services.AddHttpContextAccessor();
 builder.Services.AddScoped<ICurrentUserAccessor, HttpContextCurrentUserAccessor>();
@@ -34,12 +42,21 @@ builder.Services.AddScoped<ICurrentUserAccessor, HttpContextCurrentUserAccessor>
 // Every bounded context's Application assembly is registered here as the module set grows.
 var systemAdminAssembly = typeof(CreateUserCommand).Assembly;
 var repaymentEngineAssembly = typeof(IDCOL.CBS.RepaymentEngine.Application.ComputeSchedule.ComputeScheduleQuery).Assembly;
+var productConfigAssembly = typeof(IDCOL.CBS.ProductConfig.Application.Products.CreateProductCommand).Assembly;
+var partyKycAssembly = typeof(IDCOL.CBS.PartyKyc.Application.Customers.CreateCustomerCommand).Assembly;
+var creditSanctionAssembly = typeof(IDCOL.CBS.CreditSanction.Application.Sanctions.CreateSanctionCommand).Assembly;
 builder.Services.AddMediatR(cfg =>
 {
     cfg.RegisterServicesFromAssembly(systemAdminAssembly);
     cfg.RegisterServicesFromAssembly(repaymentEngineAssembly);
+    cfg.RegisterServicesFromAssembly(productConfigAssembly);
+    cfg.RegisterServicesFromAssembly(partyKycAssembly);
+    cfg.RegisterServicesFromAssembly(creditSanctionAssembly);
 });
 builder.Services.AddValidatorsFromAssembly(systemAdminAssembly);
+builder.Services.AddValidatorsFromAssembly(productConfigAssembly);
+builder.Services.AddValidatorsFromAssembly(partyKycAssembly);
+builder.Services.AddValidatorsFromAssembly(creditSanctionAssembly);
 
 // Pipeline order = outer-to-inner: validate input, then check maker-checker authorization,
 // then run the handler + commit its transaction, THEN write the audit row (so the log reflects
@@ -110,6 +127,10 @@ static async Task EnsureLocalDevDatabaseAsync(IServiceProvider services, IConfig
     using var scope = services.CreateScope();
     var dbContext = scope.ServiceProvider.GetRequiredService<SystemAdminDbContext>();
     await dbContext.Database.EnsureCreatedAsync();
+
+    // Each module DbContext owns its own dev SQLite file, so EnsureCreated works per file.
+    var lifecycleDb = scope.ServiceProvider.GetRequiredService<LoanLifecycleDbContext>();
+    await lifecycleDb.Database.EnsureCreatedAsync();
 
     if (await dbContext.Users.AnyAsync())
     {

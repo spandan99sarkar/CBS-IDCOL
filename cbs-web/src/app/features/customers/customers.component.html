@@ -1,0 +1,100 @@
+<h1 class="cbs-h1">Customers</h1>
+<p class="cbs-lede">
+  Borrowers and counterparties. IDCOL's AML system will be the system of record via API sync;
+  until then, records are captured here directly.
+</p>
+
+<section class="cbs-panel">
+  <div class="cbs-panel-head">
+    <h2>All customers ({{ customers().length }})</h2>
+    <button class="cbs-btn" (click)="showForm.set(!showForm())">
+      {{ showForm() ? 'Cancel' : '+ New customer' }}
+    </button>
+  </div>
+
+  @if (showForm()) {
+    <div class="cbs-grid">
+      <div class="cbs-field">
+        <label>Customer No</label>
+        <input type="text" [(ngModel)]="form.customerNo" />
+      </div>
+      <div class="cbs-field">
+        <label>Type</label>
+        <select [(ngModel)]="form.customerType">
+          <option value="Individual">Individual</option>
+          <option value="Institutional">Institutional</option>
+          <option value="Joint">Joint</option>
+        </select>
+      </div>
+      <div class="cbs-field">
+        <label>Name</label>
+        <input type="text" [(ngModel)]="form.name" />
+      </div>
+      <div class="cbs-field">
+        <label>Business Unit</label>
+        <input type="text" [(ngModel)]="form.businessUnitCode" />
+      </div>
+      <div class="cbs-field">
+        <label>Mobile</label>
+        <input type="text" [(ngModel)]="form.mobile" />
+      </div>
+      <div class="cbs-field">
+        <label>Email</label>
+        <input type="text" [(ngModel)]="form.email" />
+      </div>
+      <div class="cbs-field">
+        <label>Sector Code</label>
+        <input type="text" [(ngModel)]="form.sectorCode" />
+      </div>
+      <div class="cbs-field">
+        <label>KYC Status</label>
+        <select [(ngModel)]="form.kycStatus">
+          <option value="Pending">Pending</option>
+          <option value="Verified">Verified</option>
+        </select>
+      </div>
+      <div class="cbs-field">
+        <label>Risk Level</label>
+        <select [(ngModel)]="form.riskLevel">
+          <option value="Low">Low</option>
+          <option value="Medium">Medium</option>
+          <option value="High">High</option>
+        </select>
+      </div>
+    </div>
+    <button class="cbs-btn" (click)="save()" [disabled]="saving()">
+      {{ saving() ? 'Saving…' : 'Save customer' }}
+    </button>
+    @if (errorMessage()) { <div class="cbs-error">{{ errorMessage() }}</div> }
+  }
+</section>
+
+<section class="cbs-panel">
+  @if (customers().length === 0) {
+    <div class="cbs-empty">No customers yet.</div>
+  } @else {
+    <div class="cbs-table-scroll">
+      <table class="cbs-table">
+        <thead>
+          <tr>
+            <th>Customer No</th><th>Name</th><th>Type</th><th>Unit</th>
+            <th>KYC</th><th>Risk</th><th>Source</th>
+          </tr>
+        </thead>
+        <tbody>
+          @for (c of customers(); track c.id) {
+            <tr>
+              <td class="cbs-mono">{{ c.customerNo }}</td>
+              <td>{{ c.name }}</td>
+              <td>{{ c.customerType }}</td>
+              <td>{{ c.businessUnitCode }}</td>
+              <td><span class="cbs-badge" [class.verified]="c.kycStatus==='Verified'" [class.pending]="c.kycStatus==='Pending'">{{ c.kycStatus }}</span></td>
+              <td>{{ c.riskLevel }}</td>
+              <td>{{ c.source }}</td>
+            </tr>
+          }
+        </tbody>
+      </table>
+    </div>
+  }
+</section>

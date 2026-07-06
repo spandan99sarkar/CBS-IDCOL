@@ -19,6 +19,18 @@ export const routes: Routes = [
         path: 'repayment-schedule',
         loadComponent: () =>
           import('./features/repayment-schedule/repayment-schedule.component').then((m) => m.RepaymentScheduleComponent)
+      },
+      {
+        path: 'customers',
+        loadComponent: () => import('./features/customers/customers.component').then((m) => m.CustomersComponent)
+      },
+      {
+        path: 'products',
+        loadComponent: () => import('./features/products/products.component').then((m) => m.ProductsComponent)
+      },
+      {
+        path: 'sanctions',
+        loadComponent: () => import('./features/sanctions/sanctions.component').then((m) => m.SanctionsComponent)
       }
     ]
   },

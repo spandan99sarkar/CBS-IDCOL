@@ -1,0 +1,105 @@
+<h1 class="cbs-h1">Loan Agreements (Sanctions)</h1>
+<p class="cbs-lede">
+  Approved loan terms for a borrower before any money moves. References a customer and a product,
+  and carries the repayment terms that drive the engine and the disbursement workflow.
+</p>
+
+<section class="cbs-panel">
+  <div class="cbs-panel-head">
+    <h2>All sanctions ({{ sanctions().length }})</h2>
+    <button class="cbs-btn" (click)="showForm.set(!showForm())">
+      {{ showForm() ? 'Cancel' : '+ New sanction' }}
+    </button>
+  </div>
+
+  @if (showForm()) {
+    <div class="cbs-grid">
+      <div class="cbs-field"><label>Sanction ID</label><input type="text" [(ngModel)]="form.sanctionId" /></div>
+      <div class="cbs-field">
+        <label>Customer</label>
+        <select [ngModel]="selectedCustomerId" (ngModelChange)="onCustomerChange($event)">
+          <option value="" disabled>Select customer…</option>
+          @for (c of customers(); track c.id) { <option [value]="c.id">{{ c.customerNo }} — {{ c.name }}</option> }
+        </select>
+      </div>
+      <div class="cbs-field">
+        <label>Product</label>
+        <select [ngModel]="form.productCode" (ngModelChange)="onProductChange($event)">
+          <option value="" disabled>Select product…</option>
+          @for (p of products(); track p.id) { <option [value]="p.productCode">{{ p.productCode }} — {{ p.productName }}</option> }
+        </select>
+      </div>
+      <div class="cbs-field"><label>Project Name</label><input type="text" [(ngModel)]="form.projectName" /></div>
+      <div class="cbs-field"><label>Industry Type</label><input type="text" [(ngModel)]="form.industryType" /></div>
+      <div class="cbs-field"><label>Loan Currency</label><input type="text" [(ngModel)]="form.loanCurrency" /></div>
+      <div class="cbs-field"><label>Loan Amount</label><input type="number" [(ngModel)]="form.loanAmount" /></div>
+      <div class="cbs-field"><label>Grant Amount</label><input type="number" [(ngModel)]="form.grantAmount" /></div>
+      <div class="cbs-field"><label>Agreement Date</label><input type="date" [(ngModel)]="form.agreementDate" /></div>
+      <div class="cbs-field"><label>Expiry Date</label><input type="date" [(ngModel)]="form.expiryDate" /></div>
+      <div class="cbs-field">
+        <label>Interest Rate Type</label>
+        <select [(ngModel)]="form.interestRateType"><option>Fixed</option><option>Floating</option></select>
+      </div>
+      <div class="cbs-field"><label>Initial Rate %</label><input type="number" step="0.0001" [(ngModel)]="form.initialInterestRatePercent" /></div>
+      <div class="cbs-field"><label>Tenor (months)</label><input type="number" [(ngModel)]="form.loanTenorMonths" /></div>
+      <div class="cbs-field"><label>Principal Repayments</label><input type="number" [(ngModel)]="form.noOfPrincipalRepayments" /></div>
+      <div class="cbs-field"><label>Interest Grace (mo)</label><input type="number" [(ngModel)]="form.interestGracePeriodMonths" /></div>
+      <div class="cbs-field"><label>Principal Moratorium (mo)</label><input type="number" [(ngModel)]="form.principalMoratoriumMonths" /></div>
+      <div class="cbs-field">
+        <label>Repayment Method</label>
+        <select [(ngModel)]="form.repaymentMethod">
+          @for (m of repaymentMethods; track m) { <option [value]="m">{{ m }}</option> }
+        </select>
+      </div>
+      <div class="cbs-field">
+        <label>Principal Frequency</label>
+        <select [(ngModel)]="form.principalFrequency">
+          <option [ngValue]="1">1</option><option [ngValue]="2">2</option><option [ngValue]="4">4</option><option [ngValue]="12">12</option>
+        </select>
+      </div>
+      <div class="cbs-field">
+        <label>Day Count Basis</label>
+        <select [(ngModel)]="form.dayCountBasis">
+          <option [ngValue]="360">360</option><option [ngValue]="364">364</option><option [ngValue]="365">365</option>
+        </select>
+      </div>
+      <div class="cbs-field"><label>LPC Rate %</label><input type="number" step="0.01" [(ngModel)]="form.lpcRatePercent" /></div>
+      <div class="cbs-field"><label>Credit Rating</label><input type="text" [(ngModel)]="form.creditRating" /></div>
+    </div>
+    <button class="cbs-btn" (click)="save()" [disabled]="saving()">{{ saving() ? 'Saving…' : 'Save sanction' }}</button>
+    @if (errorMessage()) { <div class="cbs-error">{{ errorMessage() }}</div> }
+  }
+</section>
+
+<section class="cbs-panel">
+  @if (sanctions().length === 0) {
+    <div class="cbs-empty">No sanctions yet.</div>
+  } @else {
+    <div class="cbs-table-scroll">
+      <table class="cbs-table">
+        <thead>
+          <tr><th>Sanction ID</th><th>Customer</th><th>Product</th><th>Project</th><th class="cbs-num">Loan Amount</th><th class="cbs-num">Installments</th><th>Agreement</th><th>Status</th><th></th></tr>
+        </thead>
+        <tbody>
+          @for (s of sanctions(); track s.id) {
+            <tr>
+              <td class="cbs-mono">{{ s.sanctionId }}</td>
+              <td class="cbs-mono">{{ s.customerNo }}</td>
+              <td class="cbs-mono">{{ s.productCode }}</td>
+              <td>{{ s.projectName }}</td>
+              <td class="cbs-num cbs-mono">{{ s.loanCurrency }} {{ s.loanAmount | number:'1.2-2' }}</td>
+              <td class="cbs-num">{{ s.noOfPrincipalRepayments }}</td>
+              <td class="cbs-mono">{{ s.agreementDate }}</td>
+              <td><span class="cbs-badge" [class.draft]="s.status==='Draft'" [class.signed]="s.status==='Signed'" [class.active]="s.status==='Active'">{{ s.status }}</span></td>
+              <td>
+                @if (s.status === 'Draft') {
+                  <button class="cbs-btn-outline" (click)="sign(s)">Sign</button>
+                }
+              </td>
+            </tr>
+          }
+        </tbody>
+      </table>
+    </div>
+  }
+</section>

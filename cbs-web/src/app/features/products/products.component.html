@@ -1,0 +1,72 @@
+<h1 class="cbs-h1">Loan Products</h1>
+<p class="cbs-lede">
+  Product-level defaults (rate band, day-count, repayment method, grace rules) that seed a Loan
+  Agreement and can be overridden per sanction.
+</p>
+
+<section class="cbs-panel">
+  <div class="cbs-panel-head">
+    <h2>All products ({{ products().length }})</h2>
+    <button class="cbs-btn" (click)="showForm.set(!showForm())">
+      {{ showForm() ? 'Cancel' : '+ New product' }}
+    </button>
+  </div>
+
+  @if (showForm()) {
+    <div class="cbs-grid">
+      <div class="cbs-field"><label>Product Code</label><input type="text" [(ngModel)]="form.productCode" /></div>
+      <div class="cbs-field"><label>Product Name</label><input type="text" [(ngModel)]="form.productName" /></div>
+      <div class="cbs-field"><label>Product Type</label><input type="text" [(ngModel)]="form.productType" /></div>
+      <div class="cbs-field">
+        <label>Interest Type</label>
+        <select [(ngModel)]="form.interestType"><option>Fixed</option><option>Floating</option></select>
+      </div>
+      <div class="cbs-field">
+        <label>Repayment Method</label>
+        <select [(ngModel)]="form.repaymentMethod">
+          @for (m of repaymentMethods; track m) { <option [value]="m">{{ m }}</option> }
+        </select>
+      </div>
+      <div class="cbs-field">
+        <label>Day Count Basis</label>
+        <select [(ngModel)]="form.dayCountBasis">
+          <option [ngValue]="360">360</option><option [ngValue]="364">364</option><option [ngValue]="365">365</option>
+        </select>
+      </div>
+      <div class="cbs-field"><label>Grace (months)</label><input type="number" [(ngModel)]="form.gracePeriodMonths" /></div>
+      <div class="cbs-field"><label>Suggested Rate %</label><input type="number" step="0.01" [(ngModel)]="form.suggestedRatePercent" /></div>
+      <div class="cbs-field"><label>Lower Rate %</label><input type="number" step="0.01" [(ngModel)]="form.lowerRatePercent" /></div>
+      <div class="cbs-field"><label>Upper Rate %</label><input type="number" step="0.01" [(ngModel)]="form.upperRatePercent" /></div>
+    </div>
+    <button class="cbs-btn" (click)="save()" [disabled]="saving()">{{ saving() ? 'Saving…' : 'Save product' }}</button>
+    @if (errorMessage()) { <div class="cbs-error">{{ errorMessage() }}</div> }
+  }
+</section>
+
+<section class="cbs-panel">
+  @if (products().length === 0) {
+    <div class="cbs-empty">No products yet.</div>
+  } @else {
+    <div class="cbs-table-scroll">
+      <table class="cbs-table">
+        <thead>
+          <tr><th>Code</th><th>Name</th><th>Type</th><th>Interest</th><th>Repayment</th><th class="cbs-num">Basis</th><th class="cbs-num">Rate %</th><th>Status</th></tr>
+        </thead>
+        <tbody>
+          @for (p of products(); track p.id) {
+            <tr>
+              <td class="cbs-mono">{{ p.productCode }}</td>
+              <td>{{ p.productName }}</td>
+              <td>{{ p.productType }}</td>
+              <td>{{ p.interestType }}</td>
+              <td>{{ p.repaymentMethod }}</td>
+              <td class="cbs-num">{{ p.dayCountBasis }}</td>
+              <td class="cbs-num">{{ p.suggestedRatePercent | number:'1.2-4' }}</td>
+              <td><span class="cbs-badge" [class.active]="p.isActive">{{ p.isActive ? 'Active' : 'Inactive' }}</span></td>
+            </tr>
+          }
+        </tbody>
+      </table>
+    </div>
+  }
+</section>

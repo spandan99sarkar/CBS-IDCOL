@@ -11,8 +11,19 @@ public class HttpContextCurrentUserAccessor : ICurrentUserAccessor
     public HttpContextCurrentUserAccessor(IHttpContextAccessor httpContextAccessor) =>
         _httpContextAccessor = httpContextAccessor;
 
-    public string UserId =>
-        _httpContextAccessor.HttpContext?.User.FindFirstValue(JwtRegisteredClaimNames.Sub) ?? "anonymous";
+    public string UserId
+    {
+        get
+        {
+            var user = _httpContextAccessor.HttpContext?.User;
+            if (user is null) return "anonymous";
+            // The JWT bearer handler remaps "sub" to ClaimTypes.NameIdentifier by default, so
+            // check both so the audit trail records the real actor rather than "anonymous".
+            return user.FindFirstValue(JwtRegisteredClaimNames.Sub)
+                ?? user.FindFirstValue(ClaimTypes.NameIdentifier)
+                ?? "anonymous";
+        }
+    }
 
     public IReadOnlyCollection<string> RoleCodes =>
         _httpContextAccessor.HttpContext?.User.FindAll(ClaimTypes.Role).Select(c => c.Value).ToList()

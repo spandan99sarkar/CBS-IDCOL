@@ -27,11 +27,14 @@ export class ShellComponent {
     },
     {
       label: 'Admin',
-      items: [{ label: 'Product Configuration', route: '/', enabled: false }]
+      items: [{ label: 'Product Configuration', route: '/products', enabled: true }]
     },
     {
       label: 'BU / CRM',
-      items: [{ label: 'Loan Agreements', route: '/', enabled: false }]
+      items: [
+        { label: 'Customers', route: '/customers', enabled: true },
+        { label: 'Loan Agreements', route: '/sanctions', enabled: true }
+      ]
     },
     {
       label: 'CAD',

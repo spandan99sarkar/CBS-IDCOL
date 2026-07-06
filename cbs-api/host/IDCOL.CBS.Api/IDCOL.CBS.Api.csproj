@@ -21,6 +21,10 @@
     <ProjectReference Include="..\..\src\Modules\SystemAdmin\IDCOL.CBS.SystemAdmin.Infrastructure\IDCOL.CBS.SystemAdmin.Infrastructure.csproj" />
     <ProjectReference Include="..\..\src\Shared\IDCOL.CBS.BuildingBlocks.Application\IDCOL.CBS.BuildingBlocks.Application.csproj" />
     <ProjectReference Include="..\..\src\Modules\RepaymentEngine\IDCOL.CBS.RepaymentEngine.Application\IDCOL.CBS.RepaymentEngine.Application.csproj" />
+    <ProjectReference Include="..\..\src\Modules\ProductConfig\IDCOL.CBS.ProductConfig.Application\IDCOL.CBS.ProductConfig.Application.csproj" />
+    <ProjectReference Include="..\..\src\Modules\PartyKyc\IDCOL.CBS.PartyKyc.Application\IDCOL.CBS.PartyKyc.Application.csproj" />
+    <ProjectReference Include="..\..\src\Modules\CreditSanction\IDCOL.CBS.CreditSanction.Application\IDCOL.CBS.CreditSanction.Application.csproj" />
+    <ProjectReference Include="..\..\src\Modules\LoanLifecycle\IDCOL.CBS.LoanLifecycle.Infrastructure\IDCOL.CBS.LoanLifecycle.Infrastructure.csproj" />
   </ItemGroup>
 
 </Project>
