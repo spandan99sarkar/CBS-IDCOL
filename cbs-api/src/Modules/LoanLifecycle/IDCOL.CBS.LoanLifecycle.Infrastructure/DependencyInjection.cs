@@ -1,4 +1,5 @@
 using IDCOL.CBS.CreditSanction.Application.Abstractions;
+using IDCOL.CBS.Disbursement.Application.Abstractions;
 using IDCOL.CBS.LoanLifecycle.Infrastructure.Persistence;
 using IDCOL.CBS.LoanLifecycle.Infrastructure.Repositories;
 using IDCOL.CBS.PartyKyc.Application.Abstractions;
@@ -34,6 +35,7 @@ public static class DependencyInjection
         services.AddScoped<ILoanProductRepository, LoanProductRepository>();
         services.AddScoped<ICustomerRepository, CustomerRepository>();
         services.AddScoped<ILoanAgreementRepository, LoanAgreementRepository>();
+        services.AddScoped<IDisbursementRepository, DisbursementRepository>();
 
         return services;
     }

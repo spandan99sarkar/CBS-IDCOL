@@ -23,7 +23,10 @@ export class AuthService {
       return null;
     }
 
-    const roleClaim = claims['role'];
+    // .NET emits ClaimTypes.Role under the WS schema URI in the JWT, not the short "role" key,
+    // so accept either.
+    const roleClaim =
+      claims['role'] ?? claims['http://schemas.microsoft.com/ws/2008/06/identity/claims/role'];
     const roleCodes = Array.isArray(roleClaim) ? roleClaim : roleClaim ? [roleClaim as string] : [];
 
     return {

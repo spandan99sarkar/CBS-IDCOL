@@ -1,4 +1,5 @@
 using IDCOL.CBS.CreditSanction.Domain;
+using IDCOL.CBS.Disbursement.Domain;
 using IDCOL.CBS.PartyKyc.Domain;
 using IDCOL.CBS.ProductConfig.Domain;
 using Microsoft.EntityFrameworkCore;
@@ -20,6 +21,7 @@ public class LoanLifecycleDbContext : DbContext
     public DbSet<LoanProduct> LoanProducts => Set<LoanProduct>();
     public DbSet<Customer> Customers => Set<Customer>();
     public DbSet<LoanAgreement> LoanAgreements => Set<LoanAgreement>();
+    public DbSet<DisbursementRequest> DisbursementRequests => Set<DisbursementRequest>();
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {

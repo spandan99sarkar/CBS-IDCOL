@@ -45,6 +45,7 @@ var repaymentEngineAssembly = typeof(IDCOL.CBS.RepaymentEngine.Application.Compu
 var productConfigAssembly = typeof(IDCOL.CBS.ProductConfig.Application.Products.CreateProductCommand).Assembly;
 var partyKycAssembly = typeof(IDCOL.CBS.PartyKyc.Application.Customers.CreateCustomerCommand).Assembly;
 var creditSanctionAssembly = typeof(IDCOL.CBS.CreditSanction.Application.Sanctions.CreateSanctionCommand).Assembly;
+var disbursementAssembly = typeof(IDCOL.CBS.Disbursement.Application.Commands.InitiateDisbursementCommand).Assembly;
 builder.Services.AddMediatR(cfg =>
 {
     cfg.RegisterServicesFromAssembly(systemAdminAssembly);
@@ -52,11 +53,13 @@ builder.Services.AddMediatR(cfg =>
     cfg.RegisterServicesFromAssembly(productConfigAssembly);
     cfg.RegisterServicesFromAssembly(partyKycAssembly);
     cfg.RegisterServicesFromAssembly(creditSanctionAssembly);
+    cfg.RegisterServicesFromAssembly(disbursementAssembly);
 });
 builder.Services.AddValidatorsFromAssembly(systemAdminAssembly);
 builder.Services.AddValidatorsFromAssembly(productConfigAssembly);
 builder.Services.AddValidatorsFromAssembly(partyKycAssembly);
 builder.Services.AddValidatorsFromAssembly(creditSanctionAssembly);
+builder.Services.AddValidatorsFromAssembly(disbursementAssembly);
 
 // Pipeline order = outer-to-inner: validate input, then check maker-checker authorization,
 // then run the handler + commit its transaction, THEN write the audit row (so the log reflects
@@ -140,22 +143,41 @@ static async Task EnsureLocalDevDatabaseAsync(IServiceProvider services, IConfig
     var passwordHasher = scope.ServiceProvider.GetRequiredService<IPasswordHasher>();
     var username = configuration["DevSeed:AdminUsername"] ?? "admin";
     var plainTextPassword = configuration["DevSeed:AdminPassword"] ?? "Admin@123456";
+    var hash = passwordHasher.Hash(plainTextPassword);
 
-    var admin = User.Create(
-        Guid.NewGuid(),
-        username,
-        "Local Dev Admin",
-        "dev-admin@idcol.local",
-        passwordHasher.Hash(plainTextPassword),
-        "IT",
-        "dev-seed");
+    // Department roles used both for nav gating and for the disbursement workflow's stage checks.
+    var roles = new[]
+    {
+        Role.Create(Guid.NewGuid(), "ADMIN", "Administrator", "Full access", "dev-seed"),
+        Role.Create(Guid.NewGuid(), "BU", "Business Unit", "Initiates disbursements", "dev-seed"),
+        Role.Create(Guid.NewGuid(), "CAD", "Credit Administration", "Reviews disbursements", "dev-seed"),
+        Role.Create(Guid.NewGuid(), "ACCOUNTS", "Accounts", "Posts disbursements to GL", "dev-seed"),
+    };
+    dbContext.Roles.AddRange(roles);
 
-    dbContext.Users.Add(admin);
+    Role RoleByCode(string code) => roles.First(r => r.Code == code);
+
+    // admin holds every role for general use; the domain still blocks a single user from
+    // performing more than one stage of the same disbursement, so the 3-stage flow needs the
+    // three department users below to be completed end to end.
+    var admin = User.Create(Guid.NewGuid(), username, "Local Dev Admin", "dev-admin@idcol.local", hash, "IT", "dev-seed");
+    foreach (var r in roles) admin.AssignToRole(r);
+
+    var buUser = User.Create(Guid.NewGuid(), "bu1", "BU Officer", "bu1@idcol.local", hash, "IF", "dev-seed");
+    buUser.AssignToRole(RoleByCode("BU"));
+
+    var cadUser = User.Create(Guid.NewGuid(), "cad1", "CAD Officer", "cad1@idcol.local", hash, "CAD", "dev-seed");
+    cadUser.AssignToRole(RoleByCode("CAD"));
+
+    var accountsUser = User.Create(Guid.NewGuid(), "acct1", "Accounts Officer", "acct1@idcol.local", hash, "ACCOUNTS", "dev-seed");
+    accountsUser.AssignToRole(RoleByCode("ACCOUNTS"));
+
+    dbContext.Users.AddRange(admin, buUser, cadUser, accountsUser);
     await dbContext.SaveChangesAsync();
 
     Log.Information(
-        "Dev-only SQLite fallback active - seeded admin user {Username}. Never enable Database:UseSqliteForLocalDevelopment outside local development.",
-        username);
+        "Dev-only SQLite fallback active - seeded users admin/bu1/cad1/acct1 (password {Password}). Never enable Database:UseSqliteForLocalDevelopment outside local development.",
+        plainTextPassword);
 }
 
 // Exposed so WebApplicationFactory<Program> can be used by API integration tests.

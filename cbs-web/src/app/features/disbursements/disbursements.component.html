@@ -1,0 +1,133 @@
+<h1 class="cbs-h1">Disbursements</h1>
+<p class="cbs-lede">
+  IDCOL's 3-stage maker-checker: BU initiates → CAD reviews/justifies → Accounts posts to GL.
+  A single user can never perform more than one stage of the same disbursement — enforced in the
+  domain, not just the UI. Actions below adapt to your role ({{ roles().join(', ') || 'none' }}).
+</p>
+
+<section class="cbs-panel">
+  <div class="cbs-panel-head">
+    <h2>All disbursements ({{ disbursements().length }})</h2>
+    @if (canInitiate()) {
+      <button class="cbs-btn" (click)="showInitiate.set(!showInitiate())">
+        {{ showInitiate() ? 'Cancel' : '+ Initiate disbursement' }}
+      </button>
+    }
+  </div>
+
+  @if (showInitiate() && canInitiate()) {
+    <div class="cbs-grid">
+      <div class="cbs-field">
+        <label>Sanction (Signed)</label>
+        <select [ngModel]="selectedSanctionId" (ngModelChange)="onSanctionChange($event)">
+          <option value="" disabled>Select signed sanction…</option>
+          @for (s of signedSanctions(); track s.id) {
+            <option [value]="s.id">{{ s.sanctionId }} — {{ s.projectName }}</option>
+          }
+        </select>
+      </div>
+      <div class="cbs-field"><label>Loan Amount</label><input type="number" [(ngModel)]="initiateForm.suggestedLoanAmount" /></div>
+      <div class="cbs-field"><label>Grant Amount</label><input type="number" [(ngModel)]="initiateForm.suggestedGrantAmount" /></div>
+      <div class="cbs-field"><label>Remarks</label><input type="text" [(ngModel)]="initiateForm.buRemarks" /></div>
+    </div>
+    <button class="cbs-btn" (click)="initiate()" [disabled]="busy() || !selectedSanctionId">
+      {{ busy() ? 'Submitting…' : 'Submit to CAD' }}
+    </button>
+  }
+  @if (errorMessage()) { <div class="cbs-error">{{ errorMessage() }}</div> }
+</section>
+
+<section class="cbs-panel">
+  @if (disbursements().length === 0) {
+    <div class="cbs-empty">No disbursements yet.</div>
+  } @else {
+    <div class="cbs-table-scroll">
+      <table class="cbs-table">
+        <thead>
+          <tr>
+            <th>Reference</th><th>Sanction</th><th>Project</th>
+            <th class="cbs-num">Effective Loan</th><th>Mode</th><th>Status</th><th>Action</th>
+          </tr>
+        </thead>
+        <tbody>
+          @for (d of disbursements(); track d.id) {
+            <tr>
+              <td class="cbs-mono">{{ d.referenceNo }}</td>
+              <td class="cbs-mono">{{ d.sanctionRef }}</td>
+              <td>{{ d.projectName }}</td>
+              <td class="cbs-num cbs-mono">{{ d.loanCurrency }} {{ d.effectiveLoanAmount | number:'1.2-2' }}</td>
+              <td>{{ d.disbursementMode ?? '—' }}</td>
+              <td>
+                <span class="cbs-badge"
+                  [class.draft]="d.status==='Suggested'"
+                  [class.pending]="d.status==='Proposed'"
+                  [class.signed]="d.status==='Processed'">{{ d.status }}</span>
+              </td>
+              <td>
+                @if (d.status === 'Suggested' && canReview()) {
+                  <button class="cbs-btn-outline" (click)="startReview(d)">Review</button>
+                }
+                @if (d.status === 'Proposed' && canPost()) {
+                  <button class="cbs-btn-outline" (click)="startPost(d)">Post to GL</button>
+                }
+              </td>
+            </tr>
+
+            @if (openReview() === d.id) {
+              <tr>
+                <td colspan="7">
+                  <div class="cbs-grid">
+                    <div class="cbs-field"><label>Justified Loan</label><input type="number" [(ngModel)]="reviewForm.justifiedLoanAmount" /></div>
+                    <div class="cbs-field"><label>Justified Grant</label><input type="number" [(ngModel)]="reviewForm.justifiedGrantAmount" /></div>
+                    <div class="cbs-field"><label>CAD Remarks</label><input type="text" [(ngModel)]="reviewForm.cadRemarks" /></div>
+                  </div>
+                  <button class="cbs-btn" (click)="submitReview(d)" [disabled]="busy()">Approve → Propose</button>
+                </td>
+              </tr>
+            }
+
+            @if (openPost() === d.id) {
+              <tr>
+                <td colspan="7">
+                  <div class="cbs-grid">
+                    <div class="cbs-field">
+                      <label>Mode</label>
+                      <select [(ngModel)]="postForm.disbursementMode">
+                        @for (m of modes; track m) { <option [value]="m">{{ m }}</option> }
+                      </select>
+                    </div>
+                    <div class="cbs-field"><label>Value Date</label><input type="date" [(ngModel)]="postForm.valueDate" /></div>
+                  </div>
+                  <p class="cbs-lede" style="margin:0 0 0.75rem">
+                    GL posting (auto-balanced): <strong>Dr 102030 Loan Account</strong> /
+                    <strong>Cr 202030 Bank Account</strong> for {{ d.loanCurrency }} {{ d.effectiveLoanAmount | number:'1.2-2' }}.
+                  </p>
+                  <button class="cbs-btn" (click)="submitPost(d)" [disabled]="busy()">Post to GL → Processed</button>
+                </td>
+              </tr>
+            }
+
+            @if (d.status === 'Processed' && d.glLines.length > 0) {
+              <tr>
+                <td colspan="7">
+                  <table class="cbs-table" style="max-width:520px">
+                    <thead><tr><th>GL Code</th><th>Description</th><th class="cbs-num">Debit</th><th class="cbs-num">Credit</th></tr></thead>
+                    <tbody>
+                      @for (l of d.glLines; track l.glCode) {
+                        <tr>
+                          <td class="cbs-mono">{{ l.glCode }}</td><td>{{ l.description }}</td>
+                          <td class="cbs-num cbs-mono">{{ l.debit | number:'1.2-2' }}</td>
+                          <td class="cbs-num cbs-mono">{{ l.credit | number:'1.2-2' }}</td>
+                        </tr>
+                      }
+                    </tbody>
+                  </table>
+                </td>
+              </tr>
+            }
+          }
+        </tbody>
+      </table>
+    </div>
+  }
+</section>

@@ -39,13 +39,13 @@ export class ShellComponent {
     {
       label: 'CAD',
       items: [
-        { label: 'Disbursement Review', route: '/', enabled: false },
+        { label: 'Disbursements', route: '/disbursements', enabled: true },
         { label: 'Repayment Schedule', route: '/repayment-schedule', enabled: true }
       ]
     },
     {
       label: 'Accounts',
-      items: [{ label: 'Disbursement Posting', route: '/', enabled: false }]
+      items: [{ label: 'Disbursement Posting', route: '/disbursements', enabled: true }]
     }
   ];
 

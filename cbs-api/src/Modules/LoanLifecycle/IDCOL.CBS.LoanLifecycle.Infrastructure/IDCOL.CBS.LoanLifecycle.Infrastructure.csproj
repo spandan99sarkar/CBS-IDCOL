@@ -8,6 +8,8 @@
     <ProjectReference Include="..\..\CreditSanction\IDCOL.CBS.CreditSanction.Domain\IDCOL.CBS.CreditSanction.Domain.csproj" />
     <ProjectReference Include="..\..\CreditSanction\IDCOL.CBS.CreditSanction.Application\IDCOL.CBS.CreditSanction.Application.csproj" />
     <ProjectReference Include="..\..\..\Shared\IDCOL.CBS.BuildingBlocks.Application\IDCOL.CBS.BuildingBlocks.Application.csproj" />
+    <ProjectReference Include="..\..\Disbursement\IDCOL.CBS.Disbursement.Domain\IDCOL.CBS.Disbursement.Domain.csproj" />
+    <ProjectReference Include="..\..\Disbursement\IDCOL.CBS.Disbursement.Application\IDCOL.CBS.Disbursement.Application.csproj" />
   </ItemGroup>
 
   <ItemGroup>

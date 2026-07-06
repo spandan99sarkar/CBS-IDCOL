@@ -25,6 +25,7 @@
     <ProjectReference Include="..\..\src\Modules\PartyKyc\IDCOL.CBS.PartyKyc.Application\IDCOL.CBS.PartyKyc.Application.csproj" />
     <ProjectReference Include="..\..\src\Modules\CreditSanction\IDCOL.CBS.CreditSanction.Application\IDCOL.CBS.CreditSanction.Application.csproj" />
     <ProjectReference Include="..\..\src\Modules\LoanLifecycle\IDCOL.CBS.LoanLifecycle.Infrastructure\IDCOL.CBS.LoanLifecycle.Infrastructure.csproj" />
+    <ProjectReference Include="..\..\src\Modules\Disbursement\IDCOL.CBS.Disbursement.Application\IDCOL.CBS.Disbursement.Application.csproj" />
   </ItemGroup>
 
 </Project>
