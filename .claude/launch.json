@@ -14,6 +14,20 @@
       "runtimeArgs": ["run", "dev"],
       "port": 3000,
       "cwd": "frontend"
+    },
+    {
+      "name": "cbs-web",
+      "runtimeExecutable": "npm",
+      "runtimeArgs": ["start"],
+      "port": 4200,
+      "cwd": "cbs-web"
+    },
+    {
+      "name": "cbs-api",
+      "runtimeExecutable": "C:\\Program Files\\dotnet\\dotnet.exe",
+      "runtimeArgs": ["run", "--project", "host/IDCOL.CBS.Api"],
+      "port": 5042,
+      "cwd": "cbs-api"
     }
   ]
 }

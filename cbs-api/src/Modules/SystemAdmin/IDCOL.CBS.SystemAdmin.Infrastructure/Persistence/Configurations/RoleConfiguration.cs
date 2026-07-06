@@ -23,7 +23,9 @@ public class RoleConfiguration : IEntityTypeConfiguration<Role>
         builder.HasMany(r => r.Permissions)
             .WithMany()
             .UsingEntity("SYSAD_ROLE_PERMISSION");
-        builder.Metadata.FindNavigation(nameof(Role.Permissions))!
+        // Permissions is a many-to-many skip navigation (not a plain collection navigation),
+        // so it must be looked up via FindSkipNavigation, not FindNavigation.
+        builder.Metadata.FindSkipNavigation(nameof(Role.Permissions))!
             .SetPropertyAccessMode(PropertyAccessMode.Field);
     }
 }

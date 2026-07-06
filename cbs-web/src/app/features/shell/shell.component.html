@@ -1,0 +1,32 @@
+<div class="shell">
+  <aside class="sidebar">
+    <div class="brand">IDCOL CBS</div>
+    <nav>
+      @for (group of navGroups; track group.label) {
+        <div class="nav-group">
+          <div class="nav-group-label">{{ group.label }}</div>
+          @for (item of group.items; track item.label) {
+            <a
+              class="nav-item"
+              [class.disabled]="!item.enabled"
+              [routerLink]="item.enabled ? item.route : null"
+            >
+              {{ item.label }}
+            </a>
+          }
+        </div>
+      }
+    </nav>
+    <div class="user-card">
+      @if (authService.currentUser(); as user) {
+        <div class="user-name">{{ user.displayName || user.username }}</div>
+        <div class="user-unit">{{ user.businessUnit }}</div>
+      }
+      <button (click)="logout()">Log out</button>
+    </div>
+  </aside>
+
+  <main class="content">
+    <router-outlet />
+  </main>
+</div>

@@ -33,7 +33,9 @@ public class UserConfiguration : IEntityTypeConfiguration<User>
         builder.HasMany(u => u.Roles)
             .WithMany()
             .UsingEntity("SYSAD_USER_ROLE");
-        builder.Metadata.FindNavigation(nameof(User.Roles))!
+        // Roles is a many-to-many skip navigation (not a plain collection navigation), so it
+        // must be looked up via FindSkipNavigation, not FindNavigation.
+        builder.Metadata.FindSkipNavigation(nameof(User.Roles))!
             .SetPropertyAccessMode(PropertyAccessMode.Field);
     }
 }
