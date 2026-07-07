@@ -42,7 +42,8 @@ export class ShellComponent {
         { label: 'Disbursements', route: '/disbursements', enabled: true },
         { label: 'Collections', route: '/collections', enabled: true },
         { label: 'Repayment Schedule', route: '/repayment-schedule', enabled: true },
-        { label: 'Classification', route: '/classification', enabled: true }
+        { label: 'Classification', route: '/classification', enabled: true },
+        { label: 'Reports', route: '/reports', enabled: true }
       ]
     },
     {

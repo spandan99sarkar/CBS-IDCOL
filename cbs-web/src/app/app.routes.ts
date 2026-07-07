@@ -48,6 +48,10 @@ export const routes: Routes = [
       {
         path: 'classification',
         loadComponent: () => import('./features/classification/classification.component').then((m) => m.ClassificationComponent)
+      },
+      {
+        path: 'reports',
+        loadComponent: () => import('./features/reports/reports.component').then((m) => m.ReportsComponent)
       }
     ]
   },
