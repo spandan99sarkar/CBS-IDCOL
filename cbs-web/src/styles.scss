@@ -103,3 +103,33 @@ body {
   margin-top: 1rem; padding: 0.5rem 0.75rem; background: #fef2f2; color: #b91c1c; border-radius: 2px; font-size: 0.8rem;
 }
 .cbs-empty { color: #a3a3a3; padding: 1rem 0; }
+
+/* Summary stat cards (security dashboard). */
+.cbs-stat-row { display: flex; gap: 1rem; flex-wrap: wrap; margin-bottom: 1.25rem; }
+.cbs-stat {
+  flex: 1; min-width: 150px; background: #fff; border: 1px solid #e5e5e5; border-radius: 4px; padding: 0.9rem 1rem;
+}
+.cbs-stat-label { font-size: 0.6rem; text-transform: uppercase; letter-spacing: 0.06em; color: #a3a3a3; }
+.cbs-stat-value { font-size: 1.5rem; font-weight: 600; margin: 0.15rem 0; }
+.cbs-stat-sub { font-size: 0.68rem; color: #737373; }
+
+/* Expiry-urgency status dot. */
+.cbs-dot { display: inline-block; width: 8px; height: 8px; border-radius: 50%; margin-right: 0.4rem; vertical-align: middle; }
+.cbs-dot.expired { background: #dc2626; }
+.cbs-dot.soon { background: #f59e0b; }
+.cbs-dot.watch { background: #eab308; }
+.cbs-dot.ok { background: #10b981; }
+
+/* Lightweight modal (letter preview). */
+.cbs-modal-backdrop {
+  position: fixed; inset: 0; background: rgba(0,0,0,0.4); display: flex; align-items: flex-start;
+  justify-content: center; padding: 4rem 1rem; z-index: 50;
+}
+.cbs-modal {
+  background: #fff; border-radius: 6px; padding: 1.25rem 1.5rem; width: 100%; max-width: 720px;
+  max-height: 80vh; overflow-y: auto; box-shadow: 0 20px 50px rgba(0,0,0,0.25);
+}
+.cbs-letter {
+  background: #fafafa; border: 1px solid #e5e5e5; border-radius: 4px; padding: 1rem; font-size: 0.78rem;
+  white-space: pre-wrap; font-family: 'Courier New', monospace; line-height: 1.5;
+}

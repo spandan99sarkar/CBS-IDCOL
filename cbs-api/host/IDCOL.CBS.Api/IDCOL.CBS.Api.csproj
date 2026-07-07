@@ -28,6 +28,7 @@
     <ProjectReference Include="..\..\src\Modules\Disbursement\IDCOL.CBS.Disbursement.Application\IDCOL.CBS.Disbursement.Application.csproj" />
     <ProjectReference Include="..\..\src\Modules\Collection\IDCOL.CBS.Collection.Application\IDCOL.CBS.Collection.Application.csproj" />
     <ProjectReference Include="..\..\src\Modules\Classification\IDCOL.CBS.Classification.Application\IDCOL.CBS.Classification.Application.csproj" />
+    <ProjectReference Include="..\..\src\Modules\Security\IDCOL.CBS.Security.Domain\IDCOL.CBS.Security.Domain.csproj" />
   </ItemGroup>
 
   <ItemGroup>

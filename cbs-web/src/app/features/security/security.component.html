@@ -1,0 +1,103 @@
+<h1 class="cbs-h1">Loan Security &amp; Covenant</h1>
+<p class="cbs-lede">
+  The collateral register (bank guarantees, lien-marked FDR/MTDR, DSRA, land mortgage) and covenant
+  obligations (insurance, credit rating, financial statements) per loan. The dashboard computes days
+  to expiry and the recommended action, and can generate the templated bank/borrower letters.
+</p>
+
+@if (errorMessage()) { <div class="cbs-error">{{ errorMessage() }}</div> }
+
+@if (summary(); as s) {
+  <div class="cbs-stat-row">
+    <div class="cbs-stat"><div class="cbs-stat-label">Instruments</div><div class="cbs-stat-value">{{ s.total }}</div><div class="cbs-stat-sub">{{ s.security }} security · {{ s.covenant }} covenant</div></div>
+    <div class="cbs-stat"><div class="cbs-stat-label">Expired</div><div class="cbs-stat-value" style="color:#b91c1c">{{ s.expired }}</div><div class="cbs-stat-sub">need escalation</div></div>
+    <div class="cbs-stat"><div class="cbs-stat-label">Due ≤ 30 days</div><div class="cbs-stat-value" style="color:#b45309">{{ s.expiringIn30 }}</div><div class="cbs-stat-sub">reminder / renewal</div></div>
+    <div class="cbs-stat"><div class="cbs-stat-label">Due ≤ 90 days</div><div class="cbs-stat-value" style="color:#a16207">{{ s.expiringIn90 }}</div><div class="cbs-stat-sub">watch list</div></div>
+    <div class="cbs-stat"><div class="cbs-stat-label">Eligible Security (BB)</div><div class="cbs-stat-value">{{ s.totalEligibleSecurity | number:'1.0-0' }}</div><div class="cbs-stat-sub">after haircut · as of {{ s.asOf }}</div></div>
+  </div>
+}
+
+<section class="cbs-panel">
+  <div class="cbs-panel-head">
+    <h2>Security &amp; Covenant register ({{ instruments().length }})</h2>
+    <div style="display:flex; gap:0.5rem; align-items:flex-end">
+      <div class="cbs-field" style="margin:0">
+        <label>Category</label>
+        <select [(ngModel)]="category" (ngModelChange)="reload()">
+          <option value="">All</option><option value="Security">Security</option><option value="Covenant">Covenant</option>
+        </select>
+      </div>
+      <div class="cbs-field" style="margin:0">
+        <label>Instrument</label>
+        <select [(ngModel)]="family" (ngModelChange)="reload()">
+          <option value="">All families</option>
+          @for (f of families; track f) { <option [value]="f">{{ f }}</option> }
+        </select>
+      </div>
+    </div>
+  </div>
+
+  <div class="cbs-table-scroll">
+    <table class="cbs-table">
+      <thead>
+        <tr>
+          <th>Status</th><th>Client</th><th>Instrument</th><th>Ref No</th><th>Bank / Provider</th>
+          <th class="cbs-num">Value</th><th>Expiry</th><th class="cbs-num">Days Left</th>
+          <th>Recommended Action</th><th class="cbs-num">Eligible (BB)</th><th></th>
+        </tr>
+      </thead>
+      <tbody>
+        @for (i of instruments(); track i.id) {
+          <tr>
+            <td>
+              <span class="cbs-dot" [class.expired]="urgency(i)==='expired'" [class.soon]="urgency(i)==='soon'" [class.watch]="urgency(i)==='watch'" [class.ok]="urgency(i)==='ok'"></span>
+              {{ i.lifecycleState }}
+            </td>
+            <td class="cbs-mono">{{ i.clientName }}</td>
+            <td>{{ i.instrumentFamily }} <span style="color:#a3a3a3">· {{ i.category }}</span></td>
+            <td class="cbs-mono">{{ i.instrumentNumber ?? '—' }}</td>
+            <td>{{ i.issuingBank ?? i.provider ?? '—' }}</td>
+            <td class="cbs-num cbs-mono">{{ i.currency }} {{ (i.currentBalance || i.leafValueOrInitialAmount) | number:'1.0-0' }}</td>
+            <td class="cbs-mono">{{ i.expiryDate ?? '—' }}</td>
+            <td class="cbs-num cbs-mono" [style.color]="urgency(i)==='expired' ? '#b91c1c' : (urgency(i)==='soon' ? '#b45309' : '')">
+              {{ i.daysLeft ?? '—' }}
+            </td>
+            <td>
+              <span class="cbs-badge" [class.active]="actionClass(i.recommendedAction)==='ok'" [class.pending]="actionClass(i.recommendedAction)==='warn'" [class.classified]="actionClass(i.recommendedAction)==='bad'">
+                {{ i.recommendedAction }}
+              </span>
+            </td>
+            <td class="cbs-num cbs-mono">{{ i.eligibleAmount ? (i.eligibleAmount | number:'1.0-0') : '—' }}</td>
+            <td><button class="cbs-btn-outline" (click)="openLetters(i)">Letter</button></td>
+          </tr>
+        }
+      </tbody>
+    </table>
+  </div>
+</section>
+
+@if (letterOpenFor(); as inst) {
+  <div class="cbs-modal-backdrop" (click)="closeLetters()">
+    <div class="cbs-modal" (click)="$event.stopPropagation()">
+      <div class="cbs-panel-head">
+        <h2>Generate letter — {{ inst.instrumentFamily }} · {{ inst.clientName }}</h2>
+        <button class="cbs-btn-outline" (click)="closeLetters()">Close</button>
+      </div>
+      <div style="display:flex; gap:0.5rem; align-items:flex-end; margin-bottom:1rem">
+        <div class="cbs-field" style="margin:0; flex:1">
+          <label>Letter type</label>
+          <select [(ngModel)]="selectedLetterType">
+            @for (o of letterOptions(); track o.letterType) { <option [value]="o.letterType">{{ o.letterType }} — {{ o.purpose }}</option> }
+          </select>
+        </div>
+        <button class="cbs-btn" (click)="generate()">Generate</button>
+      </div>
+      @if (letterBody(); as body) {
+        <div style="font-size:0.7rem; color:#737373; margin-bottom:0.4rem">Ref: {{ letterRef() }}</div>
+        <pre class="cbs-letter">{{ body }}</pre>
+      } @else {
+        <div class="cbs-empty">Choose a letter type and click Generate.</div>
+      }
+    </div>
+  </div>
+}

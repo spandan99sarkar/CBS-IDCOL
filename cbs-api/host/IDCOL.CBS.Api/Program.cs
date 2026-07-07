@@ -164,6 +164,10 @@ static async Task EnsureLocalDevDatabaseAsync(IServiceProvider services, IConfig
     // CAD/F&A reports have coherent, schedule-derived data instead of being empty.
     await IDCOL.CBS.Api.Infrastructure.LifecycleActivitySeed.SeedAsync(lifecycleDb);
 
+    // Seed the Loan Security & Covenant register (collateral instruments + covenant obligations)
+    // so the security dashboard and its expiry/recommended-action engine have data.
+    await IDCOL.CBS.Api.Infrastructure.SecurityCovenantSeed.SeedAsync(lifecycleDb);
+
     if (await dbContext.Users.AnyAsync())
     {
         return;

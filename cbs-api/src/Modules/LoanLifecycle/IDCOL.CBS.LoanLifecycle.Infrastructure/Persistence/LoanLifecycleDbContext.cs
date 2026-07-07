@@ -5,6 +5,7 @@ using IDCOL.CBS.Disbursement.Domain;
 using IDCOL.CBS.PartyKyc.Domain;
 using IDCOL.CBS.ProductConfig.Domain;
 using IDCOL.CBS.RepaymentEngine.Domain;
+using IDCOL.CBS.Security.Domain;
 using Microsoft.EntityFrameworkCore;
 
 namespace IDCOL.CBS.LoanLifecycle.Infrastructure.Persistence;
@@ -31,6 +32,7 @@ public class LoanLifecycleDbContext : DbContext
     public DbSet<LoanClassification> LoanClassifications => Set<LoanClassification>();
     public DbSet<Facility> Facilities => Set<Facility>();
     public DbSet<FacilityVersion> FacilityVersions => Set<FacilityVersion>();
+    public DbSet<SecurityCovenantInstrument> SecurityInstruments => Set<SecurityCovenantInstrument>();
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {

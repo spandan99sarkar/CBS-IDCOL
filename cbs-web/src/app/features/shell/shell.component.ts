@@ -43,6 +43,7 @@ export class ShellComponent {
         { label: 'Collections', route: '/collections', enabled: true },
         { label: 'Repayment Schedule', route: '/repayment-schedule', enabled: true },
         { label: 'Classification', route: '/classification', enabled: true },
+        { label: 'Security & Covenant', route: '/security', enabled: true },
         { label: 'Reports', route: '/reports', enabled: true }
       ]
     },
