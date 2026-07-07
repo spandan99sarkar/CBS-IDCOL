@@ -1,0 +1,570 @@
+{
+  "borrowerKey": "DPL",
+  "facilities": [
+    {
+      "lenderCode": "IDCOL",
+      "currency": "BDT",
+      "versions": [
+        {
+          "eventType": "RESTRUCTURE",
+          "sourceFile": "DPL expansion_Loan_Restructured.xlsx",
+          "label": "Restructured - DPL Expansion",
+          "effectiveDate": "2012-04-30",
+          "rateBeforePercent": 6,
+          "rateAfterPercent": 6,
+          "tenorMonthsBefore": 84,
+          "tenorMonthsAfter": 12,
+          "capitalizedAmount": 508179.873,
+          "waivedAmount": 0,
+          "overdueAmountRolledIn": 0,
+          "regulatoryReference": null,
+          "params": {
+            "project_name": "DPL-Expansion",
+            "currency": "BDT",
+            "loan_amount": 7079821.873,
+            "financial_close": 41029,
+            "interest_rate": 0.06,
+            "principal_type": "Level Principal",
+            "day_count_basis": 360,
+            "num_installments": 12,
+            "payment_frequency": 4,
+            "interest_grace_period_end": 41029,
+            "principal_grace_period_end": 41029,
+            "disbursements": [
+              [
+                41029,
+                7079821.873
+              ]
+            ],
+            "repayment_dates": [
+              41029,
+              41060,
+              41091,
+              41121,
+              41154,
+              41182,
+              41213,
+              41245,
+              41274,
+              41305,
+              41333,
+              41364
+            ],
+            "interest_payment_amounts": [
+              106197.328095,
+              33613.744286,
+              30633.582217,
+              26746.954199,
+              26217.415413,
+              19512.741849,
+              18563.178936,
+              16008.014493,
+              11634.680324,
+              9351.026641,
+              5644.755728,
+              3132.56795
+            ],
+            "opening_balance_amounts": [
+              7079821.873,
+              6505885.990794,
+              5929080.429177,
+              5349390.839751,
+              4766802.802379,
+              4181301.824819,
+              3592873.342372,
+              3001502.717513,
+              2407175.239529,
+              1809876.124156,
+              1209590.513205,
+              606303.4742
+            ],
+            "closing_balance_amounts": [
+              6505885.990794,
+              5929080.429177,
+              5349390.839751,
+              4766802.802379,
+              4181301.824819,
+              3592873.342372,
+              3001502.717513,
+              2407175.239529,
+              1809876.124156,
+              1209590.513205,
+              606303.4742,
+              0
+            ]
+          },
+          "verification": {
+            "openingBalance": 7079821.873,
+            "finalClosingBalance": 0,
+            "rowCount": 12,
+            "sampleRows": [
+              {
+                "payDate": "2012-04-30",
+                "openingBal": 7079821.873,
+                "interest": 106197.328095,
+                "principal": 573935.882206,
+                "closingBal": 6505885.990794
+              },
+              {
+                "payDate": "2012-05-31",
+                "openingBal": 6505885.990794,
+                "interest": 33613.744286,
+                "principal": 576805.561617,
+                "closingBal": 5929080.429177
+              },
+              {
+                "payDate": "2012-09-02",
+                "openingBal": 4766802.802379,
+                "interest": 26217.415413,
+                "principal": 585500.977559,
+                "closingBal": 4181301.824819
+              },
+              {
+                "payDate": "2013-01-31",
+                "openingBal": 1809876.124156,
+                "interest": 9351.026641,
+                "principal": 600285.61095,
+                "closingBal": 1209590.513205
+              },
+              {
+                "payDate": "2013-03-31",
+                "openingBal": 606303.4742,
+                "interest": 3132.56795,
+                "principal": 606303.4742,
+                "closingBal": 0
+              }
+            ]
+          }
+        },
+        {
+          "eventType": "RESCHEDULE",
+          "sourceFile": "DPL expansion_Loan_Rescheduled_last.xlsx",
+          "label": "Rescheduled (last) - DPL Expansion",
+          "effectiveDate": "2013-06-30",
+          "rateBeforePercent": 6,
+          "rateAfterPercent": 6,
+          "tenorMonthsBefore": 12,
+          "tenorMonthsAfter": 57,
+          "capitalizedAmount": 0,
+          "waivedAmount": 501487.382671,
+          "overdueAmountRolledIn": 0,
+          "regulatoryReference": null,
+          "params": {
+            "project_name": "DPL-Expansion",
+            "currency": "BDT",
+            "loan_amount": 6404662.573,
+            "financial_close": 41455,
+            "interest_rate": 0.06,
+            "principal_type": "Level Principal",
+            "day_count_basis": 360,
+            "num_installments": 17,
+            "payment_frequency": 4,
+            "interest_grace_period_end": 41547,
+            "principal_grace_period_end": 41547,
+            "disbursements": [
+              [
+                41455,
+                6404662.573
+              ]
+            ],
+            "repayment_dates": [
+              41455,
+              41547,
+              41640,
+              41729,
+              41820,
+              41912,
+              42005,
+              42094,
+              42185,
+              42277,
+              42372,
+              42460,
+              42551,
+              42643,
+              42735,
+              42825,
+              42916,
+              43008,
+              43100,
+              43190
+            ],
+            "interest_payment_amounts": [
+              0,
+              195342.208477,
+              98279.547183,
+              93102.444936,
+              94223.260886,
+              94276.633075,
+              94308.656387,
+              89302.345143,
+              90337.765592,
+              90348.44003,
+              92280.513239,
+              84541.545964,
+              77709.905886,
+              68743.378284,
+              58922.895672,
+              48034.969297,
+              38854.952943,
+              29461.447836,
+              19640.965224,
+              9606.993859
+            ],
+            "opening_balance_amounts": [
+              6404662.573,
+              6404662.573,
+              6340615.94727,
+              6276569.32154,
+              6212522.69581,
+              6148476.07008,
+              6084429.44435,
+              6020382.81862,
+              5956336.19289,
+              5892289.56716,
+              5828242.94143,
+              5764196.3157,
+              5123730.0584,
+              4483263.8011,
+              3842797.5438,
+              3202331.2865,
+              2561865.0292,
+              1921398.7719,
+              1280932.5146,
+              640466.2573
+            ],
+            "closing_balance_amounts": [
+              6404662.573,
+              6340615.94727,
+              6276569.32154,
+              6212522.69581,
+              6148476.07008,
+              6084429.44435,
+              6020382.81862,
+              5956336.19289,
+              5892289.56716,
+              5828242.94143,
+              5764196.3157,
+              5123730.0584,
+              4483263.8011,
+              3842797.5438,
+              3202331.2865,
+              2561865.0292,
+              1921398.7719,
+              1280932.5146,
+              640466.2573,
+              0
+            ]
+          },
+          "verification": {
+            "openingBalance": 6404662.573,
+            "finalClosingBalance": 0,
+            "rowCount": 20,
+            "sampleRows": [
+              {
+                "payDate": "2013-06-30",
+                "openingBal": 6404662.573,
+                "interest": 0,
+                "principal": 0,
+                "closingBal": 6404662.573
+              },
+              {
+                "payDate": "2013-09-30",
+                "openingBal": 6404662.573,
+                "interest": 195342.208477,
+                "principal": 64046.62573,
+                "closingBal": 6340615.94727
+              },
+              {
+                "payDate": "2016-03-31",
+                "openingBal": 5764196.3157,
+                "interest": 84541.545964,
+                "principal": 640466.2573,
+                "closingBal": 5123730.0584
+              },
+              {
+                "payDate": "2017-09-30",
+                "openingBal": 1921398.7719,
+                "interest": 29461.447836,
+                "principal": 640466.2573,
+                "closingBal": 1280932.5146
+              },
+              {
+                "payDate": "2018-03-31",
+                "openingBal": 640466.2573,
+                "interest": 9606.993859,
+                "principal": 640466.2573,
+                "closingBal": 0
+              }
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "lenderCode": "IDCOL_ADDITIONAL",
+      "currency": "BDT",
+      "versions": [
+        {
+          "eventType": "RESTRUCTURE",
+          "sourceFile": "Dreams Power Ltd._Loan_Restructured.xls",
+          "label": "Restructured - Dreams Power Ltd (base facility)",
+          "effectiveDate": "2012-04-30",
+          "rateBeforePercent": 6,
+          "rateAfterPercent": 6,
+          "tenorMonthsBefore": 60,
+          "tenorMonthsAfter": 11,
+          "capitalizedAmount": 278422.191406,
+          "waivedAmount": 0,
+          "overdueAmountRolledIn": 0,
+          "regulatoryReference": null,
+          "params": {
+            "project_name": "Dreams Power Limited",
+            "currency": "BDT",
+            "loan_amount": 3406328.441406,
+            "financial_close": 41029,
+            "interest_rate": 0.06,
+            "principal_type": "Level Principal",
+            "day_count_basis": 360,
+            "num_installments": 11,
+            "payment_frequency": 4,
+            "interest_grace_period_end": 41029,
+            "principal_grace_period_end": 41029,
+            "disbursements": [
+              [
+                41029,
+                3406328.441406
+              ]
+            ],
+            "repayment_dates": [
+              41029,
+              41060,
+              41091,
+              41121,
+              41154,
+              41182,
+              41213,
+              41245,
+              41274,
+              41305,
+              41333,
+              41364
+            ],
+            "interest_payment_amounts": [
+              51094.926621,
+              16172.646041,
+              14738.794879,
+              12868.813996,
+              12614.035972,
+              9388.203365,
+              8931.338317,
+              7701.967089,
+              5597.81633,
+              4499.077601,
+              2715.872281,
+              1507.178499
+            ],
+            "opening_balance_amounts": [
+              3406328.441406,
+              3130189.556252,
+              2852669.976671,
+              2573762.799193,
+              2293461.085828,
+              2011757.863895,
+              1728646.125853,
+              1444118.829121,
+              1158168.895905,
+              870789.213023,
+              581972.631727,
+              291711.967524
+            ],
+            "closing_balance_amounts": [
+              3130189.556252,
+              2852669.976671,
+              2573762.799193,
+              2293461.085828,
+              2011757.863895,
+              1728646.125853,
+              1444118.829121,
+              1158168.895905,
+              870789.213023,
+              581972.631727,
+              291711.967524,
+              0
+            ]
+          },
+          "verification": {
+            "openingBalance": 3406328.441406,
+            "finalClosingBalance": 0,
+            "rowCount": 12,
+            "sampleRows": [
+              {
+                "payDate": "2012-04-30",
+                "openingBal": 3406328.441406,
+                "interest": 51094.926621,
+                "principal": 276138.885154,
+                "closingBal": 3130189.556252
+              },
+              {
+                "payDate": "2012-05-31",
+                "openingBal": 3130189.556252,
+                "interest": 16172.646041,
+                "principal": 277519.57958,
+                "closingBal": 2852669.976671
+              },
+              {
+                "payDate": "2012-10-31",
+                "openingBal": 1728646.125853,
+                "interest": 8931.338317,
+                "principal": 284527.296732,
+                "closingBal": 1444118.829121
+              },
+              {
+                "payDate": "2013-01-31",
+                "openingBal": 870789.213023,
+                "interest": 4499.077601,
+                "principal": 288816.581296,
+                "closingBal": 581972.631727
+              },
+              {
+                "payDate": "2013-03-31",
+                "openingBal": 291711.967524,
+                "interest": 1507.178499,
+                "principal": 291711.967524,
+                "closingBal": 0
+              }
+            ]
+          }
+        },
+        {
+          "eventType": "RESCHEDULE",
+          "sourceFile": "Dreams Power Ltd._Loan_Rescheduled_last .xls",
+          "label": "Rescheduled (last) - Dreams Power Ltd (base facility)",
+          "effectiveDate": "2013-06-30",
+          "rateBeforePercent": 6,
+          "rateAfterPercent": 6,
+          "tenorMonthsBefore": 11,
+          "tenorMonthsAfter": 31,
+          "capitalizedAmount": 0,
+          "waivedAmount": 241281.597933,
+          "overdueAmountRolledIn": 0,
+          "regulatoryReference": null,
+          "params": {
+            "project_name": "Dreams Power Limited",
+            "currency": "BDT",
+            "loan_amount": 3081487.7414,
+            "financial_close": 41455,
+            "interest_rate": 0.06,
+            "principal_type": "Level Principal",
+            "day_count_basis": 360,
+            "num_installments": 10,
+            "payment_frequency": 4,
+            "interest_grace_period_end": 41547,
+            "principal_grace_period_end": 41547,
+            "disbursements": [
+              [
+                41455,
+                3081487.7414
+              ]
+            ],
+            "repayment_dates": [
+              41455,
+              41547,
+              41640,
+              41729,
+              41820,
+              41912,
+              42005,
+              42094,
+              42185,
+              42277,
+              42372
+            ],
+            "interest_payment_amounts": [
+              0,
+              93985.3761,
+              42986.754,
+              36566.9879,
+              32715.1282,
+              28349.6872,
+              23881.53,
+              18283.4939,
+              14020.7692,
+              9449.8957,
+              4879.0223
+            ],
+            "opening_balance_amounts": [
+              3081487.7414,
+              3081487.7414,
+              2773338.9673,
+              2465190.1931,
+              2157041.419,
+              1848892.6448,
+              1540743.8707,
+              1232595.0966,
+              924446.3224,
+              616297.5483,
+              308148.7741
+            ],
+            "closing_balance_amounts": [
+              3081487.7414,
+              2773338.9673,
+              2465190.1931,
+              2157041.419,
+              1848892.6448,
+              1540743.8707,
+              1232595.0966,
+              924446.3224,
+              616297.5483,
+              308148.7741,
+              0
+            ]
+          },
+          "verification": {
+            "openingBalance": 3081487.7414,
+            "finalClosingBalance": 0,
+            "rowCount": 11,
+            "sampleRows": [
+              {
+                "payDate": "2013-06-30",
+                "openingBal": 3081487.7414,
+                "interest": 0,
+                "principal": 0,
+                "closingBal": 3081487.7414
+              },
+              {
+                "payDate": "2013-09-30",
+                "openingBal": 3081487.7414,
+                "interest": 93985.3761,
+                "principal": 308148.7741,
+                "closingBal": 2773338.9673
+              },
+              {
+                "payDate": "2014-09-30",
+                "openingBal": 1848892.6448,
+                "interest": 28349.6872,
+                "principal": 308148.7741,
+                "closingBal": 1540743.8707
+              },
+              {
+                "payDate": "2015-09-30",
+                "openingBal": 616297.5483,
+                "interest": 9449.8957,
+                "principal": 308148.7741,
+                "closingBal": 308148.7741
+              },
+              {
+                "payDate": "2016-01-03",
+                "openingBal": 308148.7741,
+                "interest": 4879.0223,
+                "principal": 308148.7741,
+                "closingBal": 0
+              }
+            ]
+          }
+        }
+      ]
+    }
+  ],
+  "notes": "IMPORTANT CORRECTION TO THE BORROWER-SPECIFIC HINT: the 'DPL expansion_Loan_*' and 'Dreams Power Ltd._Loan_*' file pairs are NOT duplicate naming for the same two events. They are two genuinely separate IDCOL loan facilities for the same corporate group (Dreams Power Ltd):\n(1) 'DPL-Expansion' facility - loan_amount 6,571,642 BDT, first drawdown 2009-06-08, matches EX_DATA['DPL'] exactly (project_name 'DPL-Expansion', rate 6%, 20 installments, disbursements [3,200,000 + 3,371,642]). This is the facility already ported as the original fixture.\n(2) 'Dreams Power Ltd' base facility - loan_amount 5,004,650 BDT, first drawdown 2007-02-11 (three disbursements: 2,553,027 / 2,178,987 / 267,986), original rate 9.5% p.a. stepping down to 6% p.a. from 2012-02-01, 24 installments. This facility is NOT represented anywhere in examples.ts - it is a separate, earlier loan to the same borrower group with its own independent history. I modeled it as lenderCode 'IDCOL_ADDITIONAL' per the schema's guidance for genuinely separate facilities (analogous to the MAGBL-Additional pattern).\n\nBoth facilities went through the identical two-event sequence with the same effective dates (RESTRUCTURE on 2012-04-30, then RESCHEDULE on 2013-06-30), which is presumably why the two families of files were easy to mistake for duplicates - they are sister facilities restructured/rescheduled in the same rounds, not the same loan under two names.\n\nChronology and cross-checks performed for BOTH facilities:\n- RESTRUCTURE (effective 2012-04-30): the pre-event closing balance (after accruing that period's interest) becomes the new opening balance, i.e. interest is capitalized into principal. For DPL-Expansion: 6,571,642 opening + 106,197.328095 interest = 7,079,821.873 new balance (capitalizedAmount = 508,179.873, which the workbook itself labels 'Interest capitalized'). For Dreams Power base: 3,127,906.25 + 51,094.926621+... reconciles to 3,406,328.441406 (capitalizedAmount = 278,422.191406, also explicitly labelled in-sheet). Both restructures set a short remaining tenor (12 / 11 quarterly installments respectively) that would have fully amortized the loan within about a year, i.e., a workout plan.\n- RESCHEDULE (effective 2013-06-30): the restructure plans above did NOT run to completion - a second, more lenient reschedule was granted before full amortization, effective 2013-06-30, in both facilities simultaneously. In this event the opening balance is held FLAT at the prior closing balance (no interest capitalization this time), and each workbook has an explicit 'Interest waived' cell (501,487.382671 for DPL-Expansion; 241,281.597933 for Dreams Power base) sitting right next to the 'Interest capitalized' figure from the prior restructure. I have booked these as waivedAmount (true forgiveness of accrued/overdue interest) rather than capitalization, since the opening balance does NOT reflect that add-on and the label explicitly says 'waived'. This is the one place my research notes' general expectation of near-zero waivers does not hold - flagging as PLAUSIBLE but not fully certain, since I could not fully trace the waived-amount cell's exact formula/derivation in the workbook (it sits in an annotation area rather than a computed schedule cell), only its label and value.\n- Each reschedule schedule includes a leading zero-value stub row dated exactly on the effective date (2013-06-30) with interest=0, principal=0, opening=closing=the rolled-forward balance; this stub appears in the original workbooks themselves (marking the date the new terms take effect before the first real installment on the next quarter-date) and I preserved it as row 1 of the override arrays for fidelity, feeding num_installments/rowCount accordingly.\n- Both reschedule versions fully amortize to (numerically) zero by their final rows (2018-03-31 for DPL-Expansion; 2016-01-03 for Dreams Power base), confirming no further version exists after these two events in the supplied file set.\n- All dollar figures pinned via override arrays (interest_payment_amounts/opening_balance_amounts/closing_balance_amounts) rather than derived from first principles, since both are irregular workout schedules with capitalization/waiver stubs that a clean level-principal formula would not reproduce exactly - consistent with the MCML/QPSL/SCBL/SKS/THERMAX override pattern already used in examples.ts.\n- Source workbooks used: 'DPL expansion_Loan_Restructured.xlsx' (sheet DPL_Loan), 'DPL expansion_Loan_Rescheduled_last.xlsx' (sheet DPL_Loan), 'Dreams Power Ltd._Loan_Restructured.xls' (sheet DPL_Loan), 'Dreams Power Ltd._Loan_Rescheduled_last .xls' (sheet DPL_Loan). The '_old.xls' files for both project names (not in the assigned file list) appear to hold each facility's pre-restructure original schedule and were not processed, consistent with scope.\n- day_count_basis, principal_type ('Level Principal'), and payment_frequency (4/quarterly) carried forward unchanged from the original EX_DATA['DPL'] shape for the DPL-Expansion facility, and inferred identically for the Dreams Power base facility since its DPL_Loan sheet header block states the same conventions ('360 days basis', 'Level Principal', quarterly dates)."
+}

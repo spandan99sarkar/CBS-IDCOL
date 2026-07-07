@@ -1,13 +1,14 @@
 import { CommonModule } from '@angular/common';
 import { Component, OnInit, signal } from '@angular/core';
 import { FormsModule } from '@angular/forms';
+import { RouterLink } from '@angular/router';
 import { LifecycleService } from '../../core/lifecycle/lifecycle.service';
 import { CreateSanctionRequest, Customer, Product, Sanction } from '../../core/lifecycle/lifecycle.models';
 
 @Component({
   selector: 'app-sanctions',
   standalone: true,
-  imports: [CommonModule, FormsModule],
+  imports: [CommonModule, FormsModule, RouterLink],
   templateUrl: './sanctions.component.html'
 })
 export class SanctionsComponent implements OnInit {

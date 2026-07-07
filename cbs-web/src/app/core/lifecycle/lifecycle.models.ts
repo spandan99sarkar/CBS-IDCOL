@@ -64,6 +64,12 @@ export interface Sanction {
   noOfPrincipalRepayments: number;
   loanTenorMonths: number;
   status: string;
+  initialInterestRatePercent: number;
+  repaymentMethod: string;
+  principalFrequency: number;
+  dayCountBasis: number;
+  interestGracePeriodMonths: number;
+  principalMoratoriumMonths: number;
 }
 
 export interface CreateSanctionRequest {

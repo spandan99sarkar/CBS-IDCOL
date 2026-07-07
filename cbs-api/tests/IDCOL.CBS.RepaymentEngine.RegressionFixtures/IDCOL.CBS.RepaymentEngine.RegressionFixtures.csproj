@@ -22,12 +22,16 @@
 
   <ItemGroup>
     <ProjectReference Include="..\..\src\Modules\RepaymentEngine\IDCOL.CBS.RepaymentEngine.Domain\IDCOL.CBS.RepaymentEngine.Domain.csproj" />
+    <ProjectReference Include="..\..\src\Modules\RepaymentEngine\IDCOL.CBS.RepaymentEngine.Application\IDCOL.CBS.RepaymentEngine.Application.csproj" />
   </ItemGroup>
 
   <ItemGroup>
     <!-- Golden reference schedules for all 19 real IDCOL borrowers, produced by the validated
          reference engine. Copied next to the test assembly so the fixtures can load them. -->
     <None Include="GoldenData\*.json" CopyToOutputDirectory="PreserveNewest" />
+    <!-- Real reschedule/restructure/prepayment event chains extracted from the same 19
+         borrowers' historical workbooks - see BorrowerRescheduleRegressionTests. -->
+    <None Include="RescheduleData\*.json" CopyToOutputDirectory="PreserveNewest" />
   </ItemGroup>
 
 </Project>

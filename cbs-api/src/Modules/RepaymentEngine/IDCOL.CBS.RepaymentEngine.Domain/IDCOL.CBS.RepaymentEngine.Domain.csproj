@@ -2,6 +2,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\..\..\Shared\IDCOL.CBS.BuildingBlocks.Domain\IDCOL.CBS.BuildingBlocks.Domain.csproj" />
+    <ProjectReference Include="..\..\..\Shared\IDCOL.CBS.SharedKernel\IDCOL.CBS.SharedKernel.csproj" />
   </ItemGroup>
 
   <PropertyGroup>

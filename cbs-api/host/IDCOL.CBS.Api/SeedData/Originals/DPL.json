@@ -1,0 +1,53 @@
+{
+  "project_name": "DPL-Expansion",
+  "currency": "BDT",
+  "loan_amount": 6571642,
+  "financial_close": 39972,
+  "interest_rate": 0.06,
+  "principal_type": "Level Principal",
+  "day_count_basis": 360,
+  "num_installments": 20,
+  "payment_frequency": 4,
+  "interest_grace_period_end": 40025,
+  "principal_grace_period_end": 40665,
+  "disbursements": [
+    [
+      39972,
+      3200000
+    ],
+    [
+      40121,
+      3371642
+    ]
+  ],
+  "repayment_dates": [
+    40025,
+    40118,
+    40209,
+    40300,
+    40391,
+    40482,
+    40574,
+    40665,
+    40755,
+    40847,
+    40939,
+    41029,
+    41121,
+    41213,
+    41305,
+    41394,
+    41486,
+    41578,
+    41670,
+    41759,
+    41851,
+    41943,
+    42035,
+    42124,
+    42216,
+    42308,
+    42400,
+    42490
+  ]
+}

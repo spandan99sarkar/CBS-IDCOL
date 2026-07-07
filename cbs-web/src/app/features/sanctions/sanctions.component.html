@@ -91,9 +91,12 @@
               <td class="cbs-num">{{ s.noOfPrincipalRepayments }}</td>
               <td class="cbs-mono">{{ s.agreementDate }}</td>
               <td><span class="cbs-badge" [class.draft]="s.status==='Draft'" [class.signed]="s.status==='Signed'" [class.active]="s.status==='Active'">{{ s.status }}</span></td>
-              <td>
+              <td style="display:flex; gap:0.4rem">
                 @if (s.status === 'Draft') {
                   <button class="cbs-btn-outline" (click)="sign(s)">Sign</button>
+                }
+                @if (s.status !== 'Draft') {
+                  <a class="cbs-btn-outline" [routerLink]="['/sanctions', s.id, 'facility']" style="text-decoration:none">Schedule</a>
                 }
               </td>
             </tr>

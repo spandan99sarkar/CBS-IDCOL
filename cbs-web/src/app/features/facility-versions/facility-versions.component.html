@@ -1,0 +1,165 @@
+<a routerLink="/sanctions" style="font-size:0.8rem; color:#737373; text-decoration:none">&larr; Back to Loan Agreements</a>
+
+<h1 class="cbs-h1" style="margin-top:0.5rem">
+  Repayment Schedule — {{ sanction()?.sanctionId }}
+</h1>
+<p class="cbs-lede">
+  {{ sanction()?.projectName }} · The full reschedule/restructure/prepayment history for this
+  facility lives here as versions, each an immutable "generation" of the schedule. Nothing is
+  overwritten — a reschedule supersedes the prior version but never deletes it.
+</p>
+
+@if (errorMessage()) { <div class="cbs-error">{{ errorMessage() }}</div> }
+
+@if (facilities().length === 0) {
+  <section class="cbs-panel">
+    <div class="cbs-empty" style="margin-bottom:1rem">No facility yet for this sanction.</div>
+    <button class="cbs-btn" (click)="generateOriginal()" [disabled]="busy() || !sanction()">
+      {{ busy() ? 'Generating…' : 'Generate Original Schedule from Sanction Terms' }}
+    </button>
+  </section>
+} @else {
+  <section class="cbs-panel">
+    <div class="cbs-panel-head">
+      <h2>Version history — {{ selectedFacility()?.lenderCode }} ({{ selectedFacility()?.currency }})</h2>
+      <div style="display:flex; gap:0.5rem">
+        @if (facilities().length > 1) {
+          <select [ngModel]="selectedFacilityId()" (ngModelChange)="selectFacility($event)">
+            @for (f of facilities(); track f.id) { <option [value]="f.id">{{ f.lenderCode }}</option> }
+          </select>
+        }
+        @if (canModify()) {
+          <button class="cbs-btn" (click)="showWizard.set(!showWizard())">
+            {{ showWizard() ? 'Cancel' : '+ Reschedule / Restructure' }}
+          </button>
+        }
+      </div>
+    </div>
+
+    <div class="cbs-table-scroll">
+      <table class="cbs-table">
+        <thead>
+          <tr>
+            <th>Ver</th><th>Event</th><th>Label</th><th>Effective</th><th>Status</th>
+            <th class="cbs-num">Rate Before→After</th><th class="cbs-num">Tenor Before→After</th>
+            <th class="cbs-num">Capitalized</th><th class="cbs-num">Overdue Rolled-In</th><th>Reg. Ref</th>
+          </tr>
+        </thead>
+        <tbody>
+          @for (v of selectedFacility()?.versions; track v.id) {
+            <tr [style.cursor]="'pointer'" [style.background]="v.id === selectedVersionId() ? '#f5f5f5' : ''" (click)="selectVersion(v.id)">
+              <td class="cbs-num">{{ v.versionSequence }}</td>
+              <td><span class="cbs-badge" [class.signed]="v.eventType==='Original'" [class.pending]="v.eventType!=='Original'">{{ v.eventType }}</span></td>
+              <td>{{ v.label }}</td>
+              <td class="cbs-mono">{{ v.effectiveDate }}</td>
+              <td>{{ v.status }}</td>
+              <td class="cbs-num cbs-mono">{{ v.rateBeforePercent ?? '—' }}{{ v.rateBeforePercent !== null ? '%' : '' }} → {{ v.rateAfterPercent ?? '—' }}{{ v.rateAfterPercent !== null ? '%' : '' }}</td>
+              <td class="cbs-num cbs-mono">{{ v.tenorMonthsBefore ?? '—' }} → {{ v.tenorMonthsAfter ?? '—' }}</td>
+              <td class="cbs-num cbs-mono">{{ v.capitalizedAmount | number:'1.2-2' }}</td>
+              <td class="cbs-num cbs-mono">{{ v.overdueAmountRolledIn | number:'1.2-2' }}</td>
+              <td>{{ v.regulatoryReference ?? '—' }}</td>
+            </tr>
+          }
+        </tbody>
+      </table>
+    </div>
+
+    @if (showWizard() && canModify()) {
+      <div style="margin-top:1.5rem; padding-top:1.5rem; border-top:1px solid #e5e5e5">
+        <h2 style="font-size:1rem; margin:0 0 1rem">New version</h2>
+        <div class="cbs-grid">
+          <div class="cbs-field">
+            <label>Event Type</label>
+            <select [(ngModel)]="wizard.eventType">
+              @for (t of eventTypes; track t) { <option [value]="t">{{ t }}</option> }
+            </select>
+          </div>
+          <div class="cbs-field"><label>Effective Date</label><input type="date" [(ngModel)]="wizard.effectiveDate" /></div>
+          <div class="cbs-field"><label>Label</label><input type="text" [(ngModel)]="wizard.label" placeholder="e.g. 1st Reschedule" /></div>
+          <div class="cbs-field"><label>New Rate %</label><input type="number" step="0.0001" [(ngModel)]="wizard.newRatePercent" /></div>
+          <div class="cbs-field"><label>New Tenor (months)</label><input type="number" [(ngModel)]="wizard.newTenorMonths" /></div>
+          <div class="cbs-field"><label>New Installments</label><input type="number" [(ngModel)]="wizard.newInstallments" /></div>
+          <div class="cbs-field">
+            <label>Frequency</label>
+            <select [(ngModel)]="wizard.newPaymentFrequency">
+              <option [ngValue]="1">1</option><option [ngValue]="2">2</option><option [ngValue]="4">4</option><option [ngValue]="12">12</option>
+            </select>
+          </div>
+          <div class="cbs-field">
+            <label>Day Count Basis</label>
+            <select [(ngModel)]="wizard.newDayCountBasis">
+              <option [ngValue]="360">360</option><option [ngValue]="364">364</option><option [ngValue]="365">365</option>
+            </select>
+          </div>
+          <div class="cbs-field">
+            <label>Principal Type</label>
+            <select [(ngModel)]="wizard.newPrincipalType">
+              <option>Level Principal</option><option>Annuity</option><option>PPMT Principal</option><option>Scheduled Principal</option>
+            </select>
+          </div>
+          <div class="cbs-field"><label>Capitalized Amount</label><input type="number" [(ngModel)]="wizard.capitalizedAmount" /></div>
+          <div class="cbs-field"><label>Waived Amount</label><input type="number" [(ngModel)]="wizard.waivedAmount" /></div>
+          <div class="cbs-field"><label>Overdue Rolled-In</label><input type="number" [(ngModel)]="wizard.overdueAmountRolledIn" /></div>
+          <div class="cbs-field"><label>Regulatory Reference</label><input type="text" [(ngModel)]="wizard.regulatoryReference" placeholder="e.g. DFIM Circular 04/2021" /></div>
+        </div>
+        <p class="cbs-lede" style="margin:0 0 0.75rem">
+          New opening balance = current version's final closing balance + capitalized + overdue rolled-in,
+          disbursed as a single lump sum on the effective date.
+        </p>
+        <button class="cbs-btn" (click)="submitWizard()" [disabled]="busy()">
+          {{ busy() ? 'Creating…' : 'Create version' }}
+        </button>
+      </div>
+    }
+  </section>
+
+  <section class="cbs-panel">
+    <div class="cbs-panel-head">
+      <h2>Schedule — {{ selectedVersion()?.label }} ({{ selectedVersion()?.status }})</h2>
+      @if (canModify()) {
+        <button class="cbs-btn-outline" (click)="editMode.set(!editMode())">
+          {{ editMode() ? 'Done editing' : 'Edit rows (in-table override)' }}
+        </button>
+      }
+    </div>
+
+    <div style="display:flex; gap:2rem; margin-bottom:1rem">
+      <div><div style="font-size:0.65rem; color:#a3a3a3; text-transform:uppercase">Total Interest</div><div class="cbs-mono">{{ totals().interest | number:'1.2-2' }}</div></div>
+      <div><div style="font-size:0.65rem; color:#a3a3a3; text-transform:uppercase">Total Principal</div><div class="cbs-mono">{{ totals().principal | number:'1.2-2' }}</div></div>
+      <div><div style="font-size:0.65rem; color:#a3a3a3; text-transform:uppercase">Installments</div><div>{{ schedule().length }}</div></div>
+    </div>
+
+    <div class="cbs-table-scroll">
+      <table class="cbs-table">
+        <thead>
+          <tr>
+            <th>#</th><th>Pay Date</th><th class="cbs-num">Opening</th><th class="cbs-num">Interest</th>
+            <th class="cbs-num">Principal</th><th class="cbs-num">Closing</th>
+            @if (editMode()) { <th></th> }
+          </tr>
+        </thead>
+        <tbody>
+          @for (row of schedule(); track row.idx) {
+            <tr>
+              <td class="cbs-num">{{ row.idx + 1 }}</td>
+              <td class="cbs-mono">{{ isoDate(row.payDate) }}</td>
+              @if (editMode() && editBuffer[row.idx]) {
+                <td class="cbs-num"><input type="number" [(ngModel)]="editBuffer[row.idx].opening" style="width:110px; text-align:right" /></td>
+                <td class="cbs-num"><input type="number" [(ngModel)]="editBuffer[row.idx].interest" style="width:100px; text-align:right" /></td>
+                <td class="cbs-num cbs-mono">{{ row.principal | number:'1.2-2' }}</td>
+                <td class="cbs-num"><input type="number" [(ngModel)]="editBuffer[row.idx].closing" style="width:110px; text-align:right" /></td>
+                <td><button class="cbs-btn-outline" (click)="saveRowOverride(row)">Save</button></td>
+              } @else {
+                <td class="cbs-num cbs-mono">{{ row.openingBal | number:'1.2-2' }}</td>
+                <td class="cbs-num cbs-mono">{{ row.interest | number:'1.2-2' }}</td>
+                <td class="cbs-num cbs-mono">{{ row.principal | number:'1.2-2' }}</td>
+                <td class="cbs-num cbs-mono">{{ row.closingBal | number:'1.2-2' }}</td>
+                @if (editMode()) { <td><button class="cbs-btn-outline" (click)="beginEditRow(row)">Edit</button></td> }
+              }
+            </tr>
+          }
+        </tbody>
+      </table>
+    </div>
+  </section>
+}

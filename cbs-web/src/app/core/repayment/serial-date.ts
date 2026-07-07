@@ -13,3 +13,19 @@ export function serialToIso(serial: number): string {
 export function dateToSerial(date: Date): number {
   return Math.round((Date.UTC(date.getFullYear(), date.getMonth(), date.getDate()) - EPOCH_MS) / DAY_MS);
 }
+
+/** Parses an ISO "yyyy-MM-dd" string directly (no local-timezone Date round-trip pitfalls). */
+export function isoToSerial(iso: string): number {
+  const [y, m, d] = iso.split('-').map(Number);
+  return Math.round((Date.UTC(y, m - 1, d) - EPOCH_MS) / DAY_MS);
+}
+
+export function addMonthsToIso(iso: string, months: number): string {
+  const [y, m, d] = iso.split('-').map(Number);
+  const total = (m - 1) + months;
+  const year = y + Math.floor(total / 12);
+  const month = ((total % 12) + 12) % 12;
+  const lastDay = new Date(Date.UTC(year, month + 1, 0)).getUTCDate();
+  const day = Math.min(d, lastDay);
+  return new Date(Date.UTC(year, month, day)).toISOString().slice(0, 10);
+}

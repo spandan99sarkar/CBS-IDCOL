@@ -1,0 +1,92 @@
+{
+  "project_name": "Partex Petro Limited (PPL)",
+  "currency": "BDT",
+  "loan_amount": 980000000,
+  "financial_close": 42723,
+  "interest_rate": 0.1,
+  "principal_type": "Level Principal",
+  "day_count_basis": 360,
+  "num_installments": 20,
+  "payment_frequency": 4,
+  "interest_capitalized_until": 43921,
+  "interest_grace_period_end": 43921,
+  "principal_grace_period_end": 43921,
+  "disbursements": [
+    [
+      42808,
+      90000000
+    ],
+    [
+      42808,
+      8715714.29
+    ],
+    [
+      43143,
+      39593464.29
+    ],
+    [
+      43380,
+      379545656.25
+    ]
+  ],
+  "repayment_dates": [
+    42825,
+    42916,
+    43008,
+    43099,
+    43190,
+    43281,
+    43373,
+    43464,
+    43555,
+    43646,
+    43738,
+    43829,
+    43921,
+    44012,
+    44104,
+    44195,
+    44286,
+    44377,
+    44469,
+    44560,
+    44651,
+    44742,
+    44834,
+    44925,
+    45016,
+    45107,
+    45199,
+    45290,
+    45382,
+    45473,
+    45565,
+    45656,
+    45730
+  ],
+  "interest_rate_change_events": [
+    [
+      42948,
+      0.0925
+    ],
+    [
+      43191,
+      0.11
+    ]
+  ],
+  "interest_day_adjustments": [
+    {
+      "pay_date": 43190,
+      "balance": "opening_balance",
+      "rate": 0.0925,
+      "days": 1
+    },
+    {
+      "pay_date": 43281,
+      "balance": "opening_balance",
+      "rate": 0.0925,
+      "days": -1
+    }
+  ],
+  "total_debt_service_includes_capitalized_interest": true
+}

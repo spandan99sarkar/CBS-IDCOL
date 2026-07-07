@@ -168,8 +168,13 @@ public static class RepaymentScheduleEngine
                 }
                 else if (ptype is "Scheduled Percentage Principal" or "Scheduled Principal" or "Percentage Schedule")
                 {
-                    if (amtSched != null) principal = amtSched[instPaid];
-                    else if (pctSched != null) principal = p.LoanAmount * pctSched[instPaid];
+                    // Clamped, not indexed directly: a schedule reconstructed from a historical
+                    // workbook can have an amount/percentage list a row or two short of
+                    // num_installments (e.g. a trailing/leading stub the source extraction
+                    // dropped). Falling back to the last known entry is safer than throwing for
+                    // otherwise-valid, mostly-complete real-world data.
+                    if (amtSched != null) principal = amtSched[Math.Min(instPaid, amtSched.Length - 1)];
+                    else if (pctSched != null) principal = p.LoanAmount * pctSched[Math.Min(instPaid, pctSched.Length - 1)];
                     if (remaining == 1) principal = principalBase;
                 }
                 else

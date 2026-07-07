@@ -44,6 +44,19 @@ export interface ScheduleParameters {
   annuityUsePeriodRate: boolean;
   totalDebtServiceMode: string | null;
   totalDebtServiceIncludesCapitalizedInterest: boolean;
+
+  // Auto date-generation inputs - only used when repaymentDates is empty; the engine falls back
+  // to GenerateRepaymentDates(). Optional so hand-authored examples (explicit repaymentDates) can
+  // omit them entirely.
+  genMode?: 'auto' | 'manual';
+  financialClose?: number | null;
+  manualDates?: string[];
+  firstPayment?: number | null;
+  paymentDay?: number;
+  bdRule?: 'none' | 'preceding' | 'succeeding';
+  holidays?: { date: string; name: string }[];
+  weekendFriSat?: boolean;
+  weekendSatSun?: boolean;
 }
 
 export interface ScheduleRow {

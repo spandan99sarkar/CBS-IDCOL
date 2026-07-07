@@ -1,4 +1,5 @@
 using System.Text;
+using System.Text.Json.Serialization;
 using FluentValidation;
 using IDCOL.CBS.Api.Infrastructure;
 using IDCOL.CBS.Api.Security;
@@ -25,7 +26,12 @@ builder.Host.UseSerilog((context, services, configuration) => configuration
     .Enrich.FromLogContext()
     .WriteTo.Console());
 
-builder.Services.AddControllers();
+// Enums serialize/bind as their string name (e.g. "Reschedule"), not the numeric ordinal - the
+// Angular clients send/expect string literals for every enum-typed field (FacilityVersionEventType
+// etc.), and numeric ordinals would also be a silent foot-gun if the enum's member order ever
+// changes.
+builder.Services.AddControllers()
+    .AddJsonOptions(options => options.JsonSerializerOptions.Converters.Add(new JsonStringEnumConverter()));
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
@@ -60,6 +66,7 @@ builder.Services.AddMediatR(cfg =>
     cfg.RegisterServicesFromAssembly(classificationAssembly);
 });
 builder.Services.AddValidatorsFromAssembly(systemAdminAssembly);
+builder.Services.AddValidatorsFromAssembly(repaymentEngineAssembly);
 builder.Services.AddValidatorsFromAssembly(productConfigAssembly);
 builder.Services.AddValidatorsFromAssembly(partyKycAssembly);
 builder.Services.AddValidatorsFromAssembly(creditSanctionAssembly);
@@ -147,6 +154,15 @@ static async Task EnsureLocalDevDatabaseAsync(IServiceProvider services, IConfig
         lifecycleDb.ProvisioningRates.AddRange(IDCOL.CBS.Classification.Domain.DfimSeed.Rates());
         await lifecycleDb.SaveChangesAsync();
     }
+
+    // Seed all 19 real IDCOL borrowers' historical schedules (original + every reschedule/
+    // restructure/prepayment event) as live Customer/Sanction/Facility/FacilityVersion data.
+    await IDCOL.CBS.Api.Infrastructure.BorrowerHistorySeed.SeedAsync(lifecycleDb);
+
+    // Seed downstream operational activity (disbursements, collections, classification run) on
+    // top of that borrower history so the Disbursement/Collection/Classification screens and the
+    // CAD/F&A reports have coherent, schedule-derived data instead of being empty.
+    await IDCOL.CBS.Api.Infrastructure.LifecycleActivitySeed.SeedAsync(lifecycleDb);
 
     if (await dbContext.Users.AnyAsync())
     {

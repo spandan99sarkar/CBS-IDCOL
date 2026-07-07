@@ -1,0 +1,60 @@
+{
+  "project_name": "Green Housing Energy Ltd. (GHEL-15 SIPs)",
+  "currency": "BDT",
+  "loan_amount": 15099668,
+  "financial_close": 42035,
+  "interest_rate": 0.06,
+  "principal_type": "Level Principal",
+  "day_count_basis": 360,
+  "num_installments": 29,
+  "interest_grace_period_end": 42148,
+  "principal_grace_period_end": 42332,
+  "disbursements": [
+    [
+      42059,
+      8598240
+    ],
+    [
+      42059,
+      4601262
+    ],
+    [
+      42540,
+      1240166
+    ]
+  ],
+  "repayment_dates": [
+    42078,
+    42170,
+    42262,
+    42353,
+    42444,
+    42536,
+    42628,
+    42719,
+    42809,
+    42901,
+    42995,
+    43086,
+    43174,
+    43268,
+    43359,
+    43451,
+    43542,
+    43632,
+    43723,
+    43814,
+    43905,
+    43997,
+    44089,
+    44180,
+    44270,
+    44362,
+    44454,
+    44545,
+    44635,
+    44727,
+    44819,
+    44910
+  ]
+}

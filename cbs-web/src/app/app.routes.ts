@@ -33,6 +33,11 @@ export const routes: Routes = [
         loadComponent: () => import('./features/sanctions/sanctions.component').then((m) => m.SanctionsComponent)
       },
       {
+        path: 'sanctions/:sanctionId/facility',
+        loadComponent: () =>
+          import('./features/facility-versions/facility-versions.component').then((m) => m.FacilityVersionsComponent)
+      },
+      {
         path: 'disbursements',
         loadComponent: () => import('./features/disbursements/disbursements.component').then((m) => m.DisbursementsComponent)
       },

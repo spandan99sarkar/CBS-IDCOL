@@ -1,0 +1,58 @@
+{
+  "project_name": "Esquire Knit Composite Limited (EKCL)",
+  "currency": "BDT",
+  "loan_amount": 750000000,
+  "financial_close": 44857,
+  "interest_rate": 0.05,
+  "principal_type": "PPMT Principal",
+  "day_count_basis": 360,
+  "num_installments": 28,
+  "payment_frequency": 4,
+  "interest_grace_period_end": 44921,
+  "principal_grace_period_end": 45286,
+  "opening_balance_includes_period_disbursements": false,
+  "disbursements": [
+    [
+      44921,
+      350000000
+    ],
+    [
+      45061,
+      277057493
+    ]
+  ],
+  "repayment_dates": [
+    45000,
+    45092,
+    45183,
+    45274,
+    45365,
+    45456,
+    45550,
+    45641,
+    45729,
+    45823,
+    45915,
+    46006,
+    46096,
+    46188,
+    46280,
+    46371,
+    46461,
+    46553,
+    46645,
+    46736,
+    46827,
+    46919,
+    47011,
+    47102,
+    47192,
+    47284,
+    47376,
+    47467,
+    47557,
+    47649,
+    47741,
+    47832
+  ]
+}

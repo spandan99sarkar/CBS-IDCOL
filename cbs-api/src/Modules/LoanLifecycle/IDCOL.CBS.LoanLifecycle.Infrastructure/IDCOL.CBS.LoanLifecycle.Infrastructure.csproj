@@ -14,6 +14,8 @@
     <ProjectReference Include="..\..\Collection\IDCOL.CBS.Collection.Application\IDCOL.CBS.Collection.Application.csproj" />
     <ProjectReference Include="..\..\Classification\IDCOL.CBS.Classification.Domain\IDCOL.CBS.Classification.Domain.csproj" />
     <ProjectReference Include="..\..\Classification\IDCOL.CBS.Classification.Application\IDCOL.CBS.Classification.Application.csproj" />
+    <ProjectReference Include="..\..\RepaymentEngine\IDCOL.CBS.RepaymentEngine.Domain\IDCOL.CBS.RepaymentEngine.Domain.csproj" />
+    <ProjectReference Include="..\..\RepaymentEngine\IDCOL.CBS.RepaymentEngine.Application\IDCOL.CBS.RepaymentEngine.Application.csproj" />
   </ItemGroup>
 
   <ItemGroup>

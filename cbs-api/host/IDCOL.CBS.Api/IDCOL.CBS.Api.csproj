@@ -30,4 +30,11 @@
     <ProjectReference Include="..\..\src\Modules\Classification\IDCOL.CBS.Classification.Application\IDCOL.CBS.Classification.Application.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <!-- Real historical schedules for all 19 IDCOL borrowers (original + every reschedule/
+         restructure/prepayment event extracted from "Loan Repayment Schedule (The Heart)"),
+         seeded as live Facility/FacilityVersion data in local dev - see DevDataSeed. -->
+    <None Include="SeedData\**\*.json" CopyToOutputDirectory="PreserveNewest" />
+  </ItemGroup>
+
 </Project>

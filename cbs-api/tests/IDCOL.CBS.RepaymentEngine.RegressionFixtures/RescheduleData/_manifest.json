@@ -1,0 +1,97 @@
+[
+  {
+    "key": "BPCL",
+    "facilityCount": 2,
+    "versionCount": 7
+  },
+  {
+    "key": "CWTP",
+    "facilityCount": 1,
+    "versionCount": 5
+  },
+  {
+    "key": "DHRL",
+    "facilityCount": 1,
+    "versionCount": 5
+  },
+  {
+    "key": "DPL",
+    "facilityCount": 2,
+    "versionCount": 4
+  },
+  {
+    "key": "EKCL",
+    "facilityCount": 1,
+    "versionCount": 1
+  },
+  {
+    "key": "GHEL",
+    "facilityCount": 1,
+    "versionCount": 2
+  },
+  {
+    "key": "HYDRON",
+    "facilityCount": 1,
+    "versionCount": 2
+  },
+  {
+    "key": "IHL",
+    "facilityCount": 1,
+    "versionCount": 2
+  },
+  {
+    "key": "KPCL",
+    "facilityCount": 1,
+    "versionCount": 3
+  },
+  {
+    "key": "KZFL",
+    "facilityCount": 1,
+    "versionCount": 1
+  },
+  {
+    "key": "MAGBL",
+    "facilityCount": 3,
+    "versionCount": 10
+  },
+  {
+    "key": "MCML",
+    "facilityCount": 1,
+    "versionCount": 3
+  },
+  {
+    "key": "NSGL",
+    "facilityCount": 1,
+    "versionCount": 1
+  },
+  {
+    "key": "PABL",
+    "facilityCount": 1,
+    "versionCount": 5
+  },
+  {
+    "key": "PPL",
+    "facilityCount": 1,
+    "versionCount": 3
+  },
+  {
+    "key": "QPSL",
+    "facilityCount": 1,
+    "versionCount": 4
+  },
+  {
+    "key": "SCBL",
+    "facilityCount": 1,
+    "versionCount": 2
+  },
+  {
+    "key": "SKS",
+    "facilityCount": 1,
+    "versionCount": 2
+  },
+  {
+    "key": "THERMAX",
+    "facilityCount": 1,
+    "versionCount": 1
+  }
+]

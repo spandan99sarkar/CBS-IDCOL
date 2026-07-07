@@ -1,4 +1,5 @@
 using System.Text.Json;
+using IDCOL.CBS.RepaymentEngine.Application.Seeding;
 using IDCOL.CBS.RepaymentEngine.Domain;
 
 namespace IDCOL.CBS.RepaymentEngine.RegressionFixtures;
@@ -51,7 +52,7 @@ public class BorrowerScheduleRegressionTests
         var expectedRows = doc.RootElement.GetProperty("rows")
             .Deserialize<List<GoldenRow>>(RootOptions)!;
         var goldenParams = doc.RootElement.GetProperty("params")
-            .Deserialize<GoldenParams>(ParamsOptions)!;
+            .Deserialize<SnakeCaseScheduleParameters>(ParamsOptions)!;
 
         var actual = RepaymentScheduleEngine.Generate(goldenParams.ToDomain());
 

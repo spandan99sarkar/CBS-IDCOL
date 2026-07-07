@@ -2,6 +2,7 @@ using IDCOL.CBS.Classification.Application.Abstractions;
 using IDCOL.CBS.Collection.Application.Abstractions;
 using IDCOL.CBS.CreditSanction.Application.Abstractions;
 using IDCOL.CBS.Disbursement.Application.Abstractions;
+using IDCOL.CBS.RepaymentEngine.Application.Abstractions;
 using IDCOL.CBS.LoanLifecycle.Infrastructure.Persistence;
 using IDCOL.CBS.LoanLifecycle.Infrastructure.Repositories;
 using IDCOL.CBS.PartyKyc.Application.Abstractions;
@@ -40,6 +41,7 @@ public static class DependencyInjection
         services.AddScoped<IDisbursementRepository, DisbursementRepository>();
         services.AddScoped<IReceiptRepository, ReceiptRepository>();
         services.AddScoped<IClassificationRepository, ClassificationRepository>();
+        services.AddScoped<IFacilityRepository, FacilityRepository>();
 
         return services;
     }
