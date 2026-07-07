@@ -23,6 +23,14 @@ export class DisbursementsComponent implements OnInit {
   // Which row (by id) has its review / post panel open.
   readonly openReview = signal<string | null>(null);
   readonly openPost = signal<string | null>(null);
+  // Rows whose GL posting detail is expanded (collapsed by default for readability).
+  readonly expandedGl = signal<ReadonlySet<string>>(new Set());
+
+  toggleGl(id: string): void {
+    const next = new Set(this.expandedGl());
+    next.has(id) ? next.delete(id) : next.add(id);
+    this.expandedGl.set(next);
+  }
 
   readonly roles = computed(() => this.auth.currentUser()?.roleCodes ?? []);
   readonly canInitiate = computed(() => this.roles().includes('BU'));

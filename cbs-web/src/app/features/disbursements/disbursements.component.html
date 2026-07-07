@@ -63,12 +63,17 @@
                   [class.pending]="d.status==='Proposed'"
                   [class.signed]="d.status==='Processed'">{{ d.status }}</span>
               </td>
-              <td>
+              <td style="display:flex; gap:0.5rem; align-items:center">
                 @if (d.status === 'Suggested' && canReview()) {
                   <button class="cbs-btn-outline" (click)="startReview(d)">Review</button>
                 }
                 @if (d.status === 'Proposed' && canPost()) {
                   <button class="cbs-btn-outline" (click)="startPost(d)">Post to GL</button>
+                }
+                @if (d.status === 'Processed' && d.glLines.length > 0) {
+                  <button class="cbs-toggle" [class.open]="expandedGl().has(d.id)" (click)="toggleGl(d.id)">
+                    <span class="caret">▸</span> GL
+                  </button>
                 }
               </td>
             </tr>
@@ -107,21 +112,21 @@
               </tr>
             }
 
-            @if (d.status === 'Processed' && d.glLines.length > 0) {
-              <tr>
+            @if (d.status === 'Processed' && d.glLines.length > 0 && expandedGl().has(d.id)) {
+              <tr class="cbs-detail-row">
                 <td colspan="7">
-                  <table class="cbs-table" style="max-width:520px">
-                    <thead><tr><th>GL Code</th><th>Description</th><th class="cbs-num">Debit</th><th class="cbs-num">Credit</th></tr></thead>
-                    <tbody>
-                      @for (l of d.glLines; track l.glCode) {
-                        <tr>
-                          <td class="cbs-mono">{{ l.glCode }}</td><td>{{ l.description }}</td>
-                          <td class="cbs-num cbs-mono">{{ l.debit | number:'1.2-2' }}</td>
-                          <td class="cbs-num cbs-mono">{{ l.credit | number:'1.2-2' }}</td>
-                        </tr>
-                      }
-                    </tbody>
-                  </table>
+                  <div class="cbs-gl">
+                    <div class="cbs-gl-title">GL Posting · {{ d.loanCurrency }}</div>
+                    @for (l of d.glLines; track l.glCode) {
+                      <div class="cbs-gl-line">
+                        <span class="cbs-mono cbs-gl-code">{{ l.glCode }}</span>
+                        <span>{{ l.description }}</span>
+                        <span class="cbs-mono cbs-gl-amt" [class.dr]="l.debit > 0" [class.cr]="l.credit > 0">
+                          {{ l.debit > 0 ? 'Dr ' + (l.debit | number:'1.2-2') : 'Cr ' + (l.credit | number:'1.2-2') }}
+                        </span>
+                      </div>
+                    }
+                  </div>
                 </td>
               </tr>
             }

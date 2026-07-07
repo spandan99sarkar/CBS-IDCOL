@@ -82,27 +82,32 @@
               <td>
                 <span class="cbs-badge" [class.pending]="r.status==='Pending'" [class.signed]="r.status==='Verified'">{{ r.status }}</span>
               </td>
-              <td>
+              <td style="display:flex; gap:0.5rem; align-items:center">
                 @if (r.status === 'Pending' && canVerify()) {
                   <button class="cbs-btn-outline" (click)="verify(r)">Verify &amp; post</button>
                 }
+                @if (r.status === 'Verified' && r.glLines.length > 0) {
+                  <button class="cbs-toggle" [class.open]="expandedGl().has(r.id)" (click)="toggleGl(r.id)">
+                    <span class="caret">▸</span> GL
+                  </button>
+                }
               </td>
             </tr>
-            @if (r.status === 'Verified' && r.glLines.length > 0) {
-              <tr>
+            @if (r.status === 'Verified' && r.glLines.length > 0 && expandedGl().has(r.id)) {
+              <tr class="cbs-detail-row">
                 <td colspan="9">
-                  <table class="cbs-table" style="max-width:560px">
-                    <thead><tr><th>GL Code</th><th>Description</th><th class="cbs-num">Debit</th><th class="cbs-num">Credit</th></tr></thead>
-                    <tbody>
-                      @for (l of r.glLines; track l.glCode) {
-                        <tr>
-                          <td class="cbs-mono">{{ l.glCode }}</td><td>{{ l.description }}</td>
-                          <td class="cbs-num cbs-mono">{{ l.debit | number:'1.2-2' }}</td>
-                          <td class="cbs-num cbs-mono">{{ l.credit | number:'1.2-2' }}</td>
-                        </tr>
-                      }
-                    </tbody>
-                  </table>
+                  <div class="cbs-gl">
+                    <div class="cbs-gl-title">GL Posting · {{ r.currency }}</div>
+                    @for (l of r.glLines; track l.glCode) {
+                      <div class="cbs-gl-line">
+                        <span class="cbs-mono cbs-gl-code">{{ l.glCode }}</span>
+                        <span>{{ l.description }}</span>
+                        <span class="cbs-mono cbs-gl-amt" [class.dr]="l.debit > 0" [class.cr]="l.credit > 0">
+                          {{ l.debit > 0 ? 'Dr ' + (l.debit | number:'1.2-2') : 'Cr ' + (l.credit | number:'1.2-2') }}
+                        </span>
+                      </div>
+                    }
+                  </div>
                 </td>
               </tr>
             }

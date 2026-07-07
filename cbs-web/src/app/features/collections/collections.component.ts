@@ -23,6 +23,14 @@ export class CollectionsComponent implements OnInit {
   readonly roles = computed(() => this.auth.currentUser()?.roleCodes ?? []);
   readonly canEnter = computed(() => this.roles().includes('CAD'));
   readonly canVerify = computed(() => this.roles().includes('ACCOUNTS'));
+  // Rows whose GL posting detail is expanded (collapsed by default for readability).
+  readonly expandedGl = signal<ReadonlySet<string>>(new Set());
+
+  toggleGl(id: string): void {
+    const next = new Set(this.expandedGl());
+    next.has(id) ? next.delete(id) : next.add(id);
+    this.expandedGl.set(next);
+  }
 
   readonly modes = ['Cash', 'Cheque', 'PayOrder', 'EFT', 'RTGS', 'SWIFT', 'PDC'];
   selectedSanctionId = '';
