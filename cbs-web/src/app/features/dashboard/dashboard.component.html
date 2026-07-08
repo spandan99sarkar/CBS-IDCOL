@@ -1,0 +1,38 @@
+<h1>Phase 0 Foundations</h1>
+<p class="lede">
+  Auth, RBAC, structural maker-checker enforcement, and the audit trail are wired up end to end.
+  Everything below this line is a placeholder until later phases build out the loan lifecycle.
+</p>
+
+<section class="audit-panel">
+  <h2>Recent audit trail</h2>
+
+  @if (loading()) {
+    <p>Loading…</p>
+  } @else if (errorMessage()) {
+    <p class="error">{{ errorMessage() }}</p>
+  } @else if (entries().length === 0) {
+    <p class="empty">No audit entries yet - actions you take will show up here.</p>
+  } @else {
+    <table>
+      <thead>
+        <tr>
+          <th>Actor</th>
+          <th>Action</th>
+          <th>Entity</th>
+          <th>Occurred (UTC)</th>
+        </tr>
+      </thead>
+      <tbody>
+        @for (entry of entries(); track entry.id) {
+          <tr>
+            <td class="mono">{{ entry.actorUserId }}</td>
+            <td>{{ entry.actionName }}</td>
+            <td>{{ entry.entityType }}{{ entry.entityId ? ' #' + entry.entityId : '' }}</td>
+            <td class="mono">{{ entry.occurredAtUtc }}</td>
+          </tr>
+        }
+      </tbody>
+    </table>
+  }
+</section>

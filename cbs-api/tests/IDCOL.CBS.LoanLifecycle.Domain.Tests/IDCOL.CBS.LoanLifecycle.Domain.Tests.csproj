@@ -1,0 +1,32 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net8.0</TargetFramework>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>enable</Nullable>
+
+    <IsPackable>false</IsPackable>
+    <IsTestProject>true</IsTestProject>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="coverlet.collector" Version="6.0.0" />
+    <PackageReference Include="Microsoft.NET.Test.Sdk" Version="17.8.0" />
+    <PackageReference Include="xunit" Version="2.5.3" />
+    <PackageReference Include="xunit.runner.visualstudio" Version="2.5.3" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Using Include="Xunit" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\..\src\Modules\ProductConfig\IDCOL.CBS.ProductConfig.Domain\IDCOL.CBS.ProductConfig.Domain.csproj" />
+    <ProjectReference Include="..\..\src\Modules\PartyKyc\IDCOL.CBS.PartyKyc.Domain\IDCOL.CBS.PartyKyc.Domain.csproj" />
+    <ProjectReference Include="..\..\src\Modules\CreditSanction\IDCOL.CBS.CreditSanction.Domain\IDCOL.CBS.CreditSanction.Domain.csproj" />
+    <ProjectReference Include="..\..\src\Modules\Disbursement\IDCOL.CBS.Disbursement.Domain\IDCOL.CBS.Disbursement.Domain.csproj" />
+    <ProjectReference Include="..\..\src\Modules\Collection\IDCOL.CBS.Collection.Domain\IDCOL.CBS.Collection.Domain.csproj" />
+    <ProjectReference Include="..\..\src\Modules\Classification\IDCOL.CBS.Classification.Domain\IDCOL.CBS.Classification.Domain.csproj" />
+  </ItemGroup>
+
+</Project>

@@ -1,0 +1,51 @@
+{
+  "project_name": "Imperial Hospital Limited (IHL)",
+  "currency": "BDT",
+  "loan_amount": 182760434.63,
+  "financial_close": 42831,
+  "interest_rate": 0.1,
+  "principal_type": "Annuity",
+  "day_count_basis": 360,
+  "num_installments": 20,
+  "payment_frequency": 4,
+  "interest_capitalized": true,
+  "interest_grace_period_end": 43848,
+  "principal_grace_period_end": 43848,
+  "disbursements": [
+    [
+      43118,
+      150000000
+    ]
+  ],
+  "repayment_dates": [
+    43189,
+    43281,
+    43373,
+    43464,
+    43554,
+    43646,
+    43738,
+    43829,
+    43837,
+    43920,
+    44012,
+    44104,
+    44195,
+    44285,
+    44377,
+    44469,
+    44560,
+    44650,
+    44742,
+    44833,
+    44924,
+    45015,
+    45106,
+    45197,
+    45288,
+    45379,
+    45473,
+    45565,
+    45656
+  ]
+}

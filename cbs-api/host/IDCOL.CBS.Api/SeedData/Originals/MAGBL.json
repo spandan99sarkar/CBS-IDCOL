@@ -1,0 +1,58 @@
+{
+  "project_name": "Makrail Auto Green Bricks Limited (MAGBL)",
+  "currency": "BDT",
+  "loan_amount": 175000000,
+  "financial_close": 42467,
+  "interest_rate": 0.09,
+  "principal_type": "PPMT Principal",
+  "day_count_basis": 360,
+  "num_installments": 24,
+  "payment_frequency": 4,
+  "interest_capitalized_until": 42914,
+  "interest_grace_period_end": 42914,
+  "principal_grace_period_end": 42914,
+  "disbursements": [
+    [
+      42549,
+      55000000
+    ],
+    [
+      42705,
+      40000000
+    ],
+    [
+      42752,
+      69750000
+    ]
+  ],
+  "repayment_dates": [
+    42628,
+    42719,
+    42809,
+    42914,
+    42992,
+    43083,
+    43174,
+    43265,
+    43356,
+    43447,
+    43538,
+    43629,
+    43723,
+    43814,
+    43905,
+    43997,
+    44089,
+    44180,
+    44271,
+    44361,
+    44453,
+    44545,
+    44636,
+    44726,
+    44818,
+    44909,
+    44999,
+    45092
+  ]
+}

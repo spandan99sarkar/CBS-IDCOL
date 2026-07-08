@@ -1,0 +1,119 @@
+<h1 class="cbs-h1">Collections</h1>
+<p class="cbs-lede">
+  Repayments received against a loan. CAD records the receipt and its Principal / Interest / LPC
+  breakdown; Accounts reconciles and posts it to the GL. The GL impact happens only on
+  verification, and the verifier can't be the CAD user who entered it. Your role:
+  {{ roles().join(', ') || 'none' }}.
+</p>
+
+<section class="cbs-panel">
+  <div class="cbs-panel-head">
+    <h2>All collections ({{ receipts().length }})</h2>
+    @if (canEnter()) {
+      <button class="cbs-btn" (click)="showForm.set(!showForm())">
+        {{ showForm() ? 'Cancel' : '+ Record collection' }}
+      </button>
+    }
+  </div>
+
+  @if (showForm() && canEnter()) {
+    <div class="cbs-grid">
+      <div class="cbs-field">
+        <label>Sanction</label>
+        <select [ngModel]="selectedSanctionId" (ngModelChange)="onSanctionChange($event)">
+          <option value="" disabled>Select sanction…</option>
+          @for (s of sanctions(); track s.id) { <option [value]="s.id">{{ s.sanctionId }} — {{ s.projectName }}</option> }
+        </select>
+      </div>
+      <div class="cbs-field">
+        <label>Payment Mode</label>
+        <select [(ngModel)]="form.paymentMode">
+          @for (m of modes; track m) { <option [value]="m">{{ m }}</option> }
+        </select>
+      </div>
+      <div class="cbs-field"><label>Instrument No</label><input type="text" [(ngModel)]="form.instrumentNo" /></div>
+      <div class="cbs-field"><label>Bank</label><input type="text" [(ngModel)]="form.bankName" /></div>
+      <div class="cbs-field"><label>Instrument Amount</label><input type="number" [(ngModel)]="form.instrumentAmount" /></div>
+      <div class="cbs-field"><label>Value Date</label><input type="date" [(ngModel)]="form.valueDate" /></div>
+      <div class="cbs-field"><label>Receive Date</label><input type="date" [(ngModel)]="form.receiveDate" /></div>
+    </div>
+
+    <div class="cbs-panel-head" style="margin-top:0.5rem"><h2>Allocation (Principal / Interest / LPC)</h2></div>
+    <div class="cbs-grid">
+      <div class="cbs-field"><label>LPC</label><input type="number" [(ngModel)]="form.lpcAmount" /></div>
+      <div class="cbs-field"><label>Interest</label><input type="number" [(ngModel)]="form.interestAmount" /></div>
+      <div class="cbs-field"><label>Principal</label><input type="number" [(ngModel)]="form.principalAmount" /></div>
+    </div>
+    <p class="cbs-lede" style="margin:0 0 0.75rem"
+      [style.color]="allocationBalanced ? '#047857' : '#b45309'">
+      Allocated {{ allocationSum | number:'1.2-2' }} of {{ form.instrumentAmount | number:'1.2-2' }}
+      {{ allocationBalanced ? '✓ balanced' : '— must equal the instrument amount' }}
+    </p>
+    <button class="cbs-btn" (click)="enter()" [disabled]="busy() || !selectedSanctionId || !allocationBalanced">
+      {{ busy() ? 'Submitting…' : 'Submit to Accounts' }}
+    </button>
+  }
+  @if (errorMessage()) { <div class="cbs-error">{{ errorMessage() }}</div> }
+</section>
+
+<section class="cbs-panel">
+  @if (receipts().length === 0) {
+    <div class="cbs-empty">No collections yet.</div>
+  } @else {
+    <div class="cbs-table-scroll">
+      <table class="cbs-table">
+        <thead>
+          <tr>
+            <th>Reference</th><th>Sanction</th><th>Mode</th>
+            <th class="cbs-num">Amount</th><th class="cbs-num">Principal</th><th class="cbs-num">Interest</th><th class="cbs-num">LPC</th>
+            <th>Status</th><th>Action</th>
+          </tr>
+        </thead>
+        <tbody>
+          @for (r of receipts(); track r.id) {
+            <tr>
+              <td class="cbs-mono">{{ r.referenceNo }}</td>
+              <td class="cbs-mono">{{ r.sanctionRef }}</td>
+              <td>{{ r.paymentMode }}</td>
+              <td class="cbs-num cbs-mono">{{ r.currency }} {{ r.instrumentAmount | number:'1.2-2' }}</td>
+              <td class="cbs-num cbs-mono">{{ r.principalAmount | number:'1.2-2' }}</td>
+              <td class="cbs-num cbs-mono">{{ r.interestAmount | number:'1.2-2' }}</td>
+              <td class="cbs-num cbs-mono">{{ r.lpcAmount | number:'1.2-2' }}</td>
+              <td>
+                <span class="cbs-badge" [class.pending]="r.status==='Pending'" [class.signed]="r.status==='Verified'">{{ r.status }}</span>
+              </td>
+              <td style="display:flex; gap:0.5rem; align-items:center">
+                @if (r.status === 'Pending' && canVerify()) {
+                  <button class="cbs-btn-outline" (click)="verify(r)">Verify &amp; post</button>
+                }
+                @if (r.status === 'Verified' && r.glLines.length > 0) {
+                  <button class="cbs-toggle" [class.open]="expandedGl().has(r.id)" (click)="toggleGl(r.id)">
+                    <span class="caret">▸</span> GL
+                  </button>
+                }
+              </td>
+            </tr>
+            @if (r.status === 'Verified' && r.glLines.length > 0 && expandedGl().has(r.id)) {
+              <tr class="cbs-detail-row">
+                <td colspan="9">
+                  <div class="cbs-gl">
+                    <div class="cbs-gl-title">GL Posting · {{ r.currency }}</div>
+                    @for (l of r.glLines; track l.glCode) {
+                      <div class="cbs-gl-line">
+                        <span class="cbs-mono cbs-gl-code">{{ l.glCode }}</span>
+                        <span>{{ l.description }}</span>
+                        <span class="cbs-mono cbs-gl-amt" [class.dr]="l.debit > 0" [class.cr]="l.credit > 0">
+                          {{ l.debit > 0 ? 'Dr ' + (l.debit | number:'1.2-2') : 'Cr ' + (l.credit | number:'1.2-2') }}
+                        </span>
+                      </div>
+                    }
+                  </div>
+                </td>
+              </tr>
+            }
+          }
+        </tbody>
+      </table>
+    </div>
+  }
+</section>

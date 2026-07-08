@@ -1,0 +1,22 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <ItemGroup>
+    <ProjectReference Include="..\..\..\Shared\IDCOL.CBS.SharedKernel\IDCOL.CBS.SharedKernel.csproj" />
+    <ProjectReference Include="..\..\..\Shared\IDCOL.CBS.BuildingBlocks.Domain\IDCOL.CBS.BuildingBlocks.Domain.csproj" />
+  </ItemGroup>
+
+  <PropertyGroup>
+    <TargetFramework>net8.0</TargetFramework>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>enable</Nullable>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <!-- Lets tests exercise RoleAssignment.Create directly to prove the persistence-layer
+         constraint (layer 3) holds even if the aggregate root's own protection (layer 1,
+         User.AssignRole) were ever bypassed - without weakening the public API for everyone else. -->
+    <InternalsVisibleTo Include="IDCOL.CBS.SystemAdmin.Domain.Tests" />
+    <InternalsVisibleTo Include="IDCOL.CBS.SystemAdmin.Infrastructure.IntegrationTests" />
+  </ItemGroup>
+
+</Project>

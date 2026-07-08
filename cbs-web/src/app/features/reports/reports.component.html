@@ -1,0 +1,96 @@
+<h1 class="cbs-h1">CAD &amp; F&amp;A Reports</h1>
+<p class="cbs-lede">
+  Portfolio reports over the loan book — sanctions, disbursements, dues, collections, classification
+  &amp; provisioning, principal movement and the reschedule/restructure return. Every report reads the
+  live transactional data (no Excel compilation step).
+</p>
+
+@if (errorMessage()) { <div class="cbs-error">{{ errorMessage() }}</div> }
+
+<div style="display:flex; gap:1.5rem; align-items:flex-start">
+  <!-- Report picker -->
+  <aside class="cbs-panel" style="width:260px; flex-shrink:0">
+    @for (g of groups(); track g.group) {
+      <div style="margin-bottom:1rem">
+        <h3 style="font-size:0.65rem; color:#a3a3a3; text-transform:uppercase; letter-spacing:0.08em; margin:0 0 0.5rem">{{ g.group }} Reports</h3>
+        <div style="display:flex; flex-direction:column; gap:0.25rem">
+          @for (r of g.items; track r.key) {
+            <button
+              class="cbs-btn-outline"
+              [style.background]="selected()?.key === r.key ? '#111' : ''"
+              [style.color]="selected()?.key === r.key ? '#fff' : ''"
+              style="text-align:left; justify-content:flex-start"
+              (click)="select(r)">
+              {{ r.name }}
+            </button>
+          }
+        </div>
+      </div>
+    }
+  </aside>
+
+  <!-- Report body -->
+  <section class="cbs-panel" style="flex:1; min-width:0">
+    <div class="cbs-panel-head">
+      <div>
+        <h2>{{ report()?.title || selected()?.name }}</h2>
+        @if (selected()) { <p class="cbs-lede" style="margin:0.25rem 0 0">{{ selected()!.description }}</p> }
+      </div>
+      <div style="display:flex; gap:0.5rem; align-items:flex-end">
+        <div class="cbs-field" style="margin:0"><label>From</label><input type="date" [(ngModel)]="from" /></div>
+        <div class="cbs-field" style="margin:0"><label>To</label><input type="date" [(ngModel)]="to" /></div>
+        <button class="cbs-btn" (click)="run()" [disabled]="loading()">{{ loading() ? 'Running…' : 'Show' }}</button>
+      </div>
+    </div>
+
+    @if (report(); as rep) {
+      <div style="margin:0.5rem 0 1rem; font-size:0.75rem; color:#737373">
+        {{ rep.rows.length }} row(s) · generated {{ rep.generatedAtUtc }}
+      </div>
+      <div class="cbs-table-scroll">
+        <table class="cbs-table">
+          <thead>
+            <tr>
+              @for (c of rep.columns; track c.key) {
+                <th [class.cbs-num]="isNumeric(c.kind)">{{ c.label }}</th>
+              }
+            </tr>
+          </thead>
+          <tbody>
+            @for (row of rep.rows; track $index) {
+              <tr>
+                @for (c of rep.columns; track c.key) {
+                  <td [class.cbs-num]="isNumeric(c.kind)" [class.cbs-mono]="isNumeric(c.kind) || c.kind === 'date'">
+                    @switch (c.kind) {
+                      @case ('money') { {{ num(cell(row, c.key)) | number:'1.2-2' }} }
+                      @case ('rate') { {{ num(cell(row, c.key)) | number:'1.0-4' }} }
+                      @case ('status') {
+                        <span class="cbs-badge" [class.active]="statusClass(cell(row,c.key))==='ok'" [class.pending]="statusClass(cell(row,c.key))==='warn'" [class.draft]="statusClass(cell(row,c.key))==='bad'">{{ cell(row, c.key) }}</span>
+                      }
+                      @default { {{ cell(row, c.key) }} }
+                    }
+                  </td>
+                }
+              </tr>
+            }
+          </tbody>
+          <tfoot>
+            <tr style="font-weight:600; border-top:2px solid #e5e5e5">
+              @for (c of rep.columns; track c.key; let first = $first) {
+                <td [class.cbs-num]="isNumeric(c.kind)" [class.cbs-mono]="isNumeric(c.kind)">
+                  @if (first) { Total ({{ rep.totals['count'] ?? rep.rows.length }}) }
+                  @else if (rep.totals[c.key] !== undefined && rep.totals[c.key] !== null) {
+                    @if (c.kind === 'money') { {{ num(rep.totals[c.key]) | number:'1.2-2' }} }
+                    @else { {{ rep.totals[c.key] }} }
+                  }
+                </td>
+              }
+            </tr>
+          </tfoot>
+        </table>
+      </div>
+    } @else if (!loading()) {
+      <div class="cbs-empty">Select a report.</div>
+    }
+  </section>
+</div>

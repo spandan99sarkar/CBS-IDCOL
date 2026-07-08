@@ -1,0 +1,20 @@
+<div class="login-page">
+  <form class="login-card" (ngSubmit)="submit()">
+    <h1>IDCOL CBS</h1>
+    <p class="subtitle">Loan &amp; Credit Lifecycle Module</p>
+
+    <label for="username">Username</label>
+    <input id="username" name="username" type="text" [(ngModel)]="username" autocomplete="username" />
+
+    <label for="password">Password</label>
+    <input id="password" name="password" type="password" [(ngModel)]="password" autocomplete="current-password" />
+
+    @if (errorMessage()) {
+      <div class="error">{{ errorMessage() }}</div>
+    }
+
+    <button type="submit" [disabled]="submitting()">
+      {{ submitting() ? 'Signing in…' : 'Sign in' }}
+    </button>
+  </form>
+</div>

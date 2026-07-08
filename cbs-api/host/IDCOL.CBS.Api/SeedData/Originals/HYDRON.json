@@ -1,0 +1,69 @@
+{
+  "project_name": "Hydron Bangladesh Private Ltd. Mini-Grid",
+  "currency": "BDT",
+  "loan_amount": 19610526,
+  "financial_close": 41639,
+  "interest_rate": 0.06,
+  "principal_type": "Level Principal",
+  "day_count_basis": 360,
+  "num_installments": 32,
+  "payment_frequency": 4,
+  "interest_grace_period_end": 42011,
+  "principal_grace_period_end": 42558,
+  "disbursements": [
+    [
+      41827,
+      10120161
+    ],
+    [
+      41921,
+      5028348
+    ],
+    [
+      41980,
+      2190418
+    ]
+  ],
+  "repayment_dates": [
+    41912,
+    42003,
+    42093,
+    42185,
+    42277,
+    42368,
+    42459,
+    42551,
+    42645,
+    42736,
+    42824,
+    42918,
+    43008,
+    43099,
+    43189,
+    43281,
+    43373,
+    43464,
+    43554,
+    43646,
+    43738,
+    43829,
+    43920,
+    44012,
+    44104,
+    44195,
+    44285,
+    44377,
+    44469,
+    44560,
+    44650,
+    44742,
+    44834,
+    44925,
+    45015,
+    45107,
+    45199,
+    45290,
+    45381,
+    45473
+  ]
+}

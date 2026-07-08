@@ -1,0 +1,41 @@
+<Project Sdk="Microsoft.NET.Sdk.Web">
+
+  <PropertyGroup>
+    <TargetFramework>net8.0</TargetFramework>
+    <Nullable>enable</Nullable>
+    <ImplicitUsings>enable</ImplicitUsings>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Microsoft.AspNetCore.Authentication.JwtBearer" Version="8.0.11" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="8.0.11">
+      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+      <PrivateAssets>all</PrivateAssets>
+    </PackageReference>
+    <PackageReference Include="Serilog.AspNetCore" Version="8.0.3" />
+    <PackageReference Include="Swashbuckle.AspNetCore" Version="6.9.0" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\..\src\Modules\SystemAdmin\IDCOL.CBS.SystemAdmin.Application\IDCOL.CBS.SystemAdmin.Application.csproj" />
+    <ProjectReference Include="..\..\src\Modules\SystemAdmin\IDCOL.CBS.SystemAdmin.Infrastructure\IDCOL.CBS.SystemAdmin.Infrastructure.csproj" />
+    <ProjectReference Include="..\..\src\Shared\IDCOL.CBS.BuildingBlocks.Application\IDCOL.CBS.BuildingBlocks.Application.csproj" />
+    <ProjectReference Include="..\..\src\Modules\RepaymentEngine\IDCOL.CBS.RepaymentEngine.Application\IDCOL.CBS.RepaymentEngine.Application.csproj" />
+    <ProjectReference Include="..\..\src\Modules\ProductConfig\IDCOL.CBS.ProductConfig.Application\IDCOL.CBS.ProductConfig.Application.csproj" />
+    <ProjectReference Include="..\..\src\Modules\PartyKyc\IDCOL.CBS.PartyKyc.Application\IDCOL.CBS.PartyKyc.Application.csproj" />
+    <ProjectReference Include="..\..\src\Modules\CreditSanction\IDCOL.CBS.CreditSanction.Application\IDCOL.CBS.CreditSanction.Application.csproj" />
+    <ProjectReference Include="..\..\src\Modules\LoanLifecycle\IDCOL.CBS.LoanLifecycle.Infrastructure\IDCOL.CBS.LoanLifecycle.Infrastructure.csproj" />
+    <ProjectReference Include="..\..\src\Modules\Disbursement\IDCOL.CBS.Disbursement.Application\IDCOL.CBS.Disbursement.Application.csproj" />
+    <ProjectReference Include="..\..\src\Modules\Collection\IDCOL.CBS.Collection.Application\IDCOL.CBS.Collection.Application.csproj" />
+    <ProjectReference Include="..\..\src\Modules\Classification\IDCOL.CBS.Classification.Application\IDCOL.CBS.Classification.Application.csproj" />
+    <ProjectReference Include="..\..\src\Modules\Security\IDCOL.CBS.Security.Domain\IDCOL.CBS.Security.Domain.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <!-- Real historical schedules for all 19 IDCOL borrowers (original + every reschedule/
+         restructure/prepayment event extracted from "Loan Repayment Schedule (The Heart)"),
+         seeded as live Facility/FacilityVersion data in local dev - see DevDataSeed. -->
+    <None Include="SeedData\**\*.json" CopyToOutputDirectory="PreserveNewest" />
+  </ItemGroup>
+
+</Project>

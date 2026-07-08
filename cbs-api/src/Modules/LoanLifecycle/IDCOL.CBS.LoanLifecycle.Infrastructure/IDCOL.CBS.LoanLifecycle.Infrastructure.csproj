@@ -1,0 +1,35 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <ItemGroup>
+    <ProjectReference Include="..\..\ProductConfig\IDCOL.CBS.ProductConfig.Domain\IDCOL.CBS.ProductConfig.Domain.csproj" />
+    <ProjectReference Include="..\..\ProductConfig\IDCOL.CBS.ProductConfig.Application\IDCOL.CBS.ProductConfig.Application.csproj" />
+    <ProjectReference Include="..\..\PartyKyc\IDCOL.CBS.PartyKyc.Domain\IDCOL.CBS.PartyKyc.Domain.csproj" />
+    <ProjectReference Include="..\..\PartyKyc\IDCOL.CBS.PartyKyc.Application\IDCOL.CBS.PartyKyc.Application.csproj" />
+    <ProjectReference Include="..\..\CreditSanction\IDCOL.CBS.CreditSanction.Domain\IDCOL.CBS.CreditSanction.Domain.csproj" />
+    <ProjectReference Include="..\..\CreditSanction\IDCOL.CBS.CreditSanction.Application\IDCOL.CBS.CreditSanction.Application.csproj" />
+    <ProjectReference Include="..\..\..\Shared\IDCOL.CBS.BuildingBlocks.Application\IDCOL.CBS.BuildingBlocks.Application.csproj" />
+    <ProjectReference Include="..\..\Disbursement\IDCOL.CBS.Disbursement.Domain\IDCOL.CBS.Disbursement.Domain.csproj" />
+    <ProjectReference Include="..\..\Disbursement\IDCOL.CBS.Disbursement.Application\IDCOL.CBS.Disbursement.Application.csproj" />
+    <ProjectReference Include="..\..\Collection\IDCOL.CBS.Collection.Domain\IDCOL.CBS.Collection.Domain.csproj" />
+    <ProjectReference Include="..\..\Collection\IDCOL.CBS.Collection.Application\IDCOL.CBS.Collection.Application.csproj" />
+    <ProjectReference Include="..\..\Classification\IDCOL.CBS.Classification.Domain\IDCOL.CBS.Classification.Domain.csproj" />
+    <ProjectReference Include="..\..\Classification\IDCOL.CBS.Classification.Application\IDCOL.CBS.Classification.Application.csproj" />
+    <ProjectReference Include="..\..\RepaymentEngine\IDCOL.CBS.RepaymentEngine.Domain\IDCOL.CBS.RepaymentEngine.Domain.csproj" />
+    <ProjectReference Include="..\..\RepaymentEngine\IDCOL.CBS.RepaymentEngine.Application\IDCOL.CBS.RepaymentEngine.Application.csproj" />
+    <ProjectReference Include="..\..\Security\IDCOL.CBS.Security.Domain\IDCOL.CBS.Security.Domain.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Microsoft.EntityFrameworkCore" Version="8.0.11" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.Sqlite" Version="8.0.11" />
+    <PackageReference Include="Microsoft.Extensions.Configuration.Binder" Version="8.0.2" />
+    <PackageReference Include="Oracle.EntityFrameworkCore" Version="8.23.60" />
+  </ItemGroup>
+
+  <PropertyGroup>
+    <TargetFramework>net8.0</TargetFramework>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>enable</Nullable>
+  </PropertyGroup>
+
+</Project>

@@ -1,0 +1,69 @@
+{
+  "project_name": "Pretty Auto Bricks Ltd. (PABL)",
+  "currency": "BDT",
+  "loan_amount": 337670000,
+  "financial_close": 41673,
+  "interest_rate": 0.1,
+  "principal_type": "PPMT Principal",
+  "day_count_basis": 360,
+  "num_installments": 24,
+  "payment_frequency": 4,
+  "interest_grace_period_end": 42509,
+  "principal_grace_period_end": 42874,
+  "disbursements": [
+    [
+      42509,
+      83974322.25
+    ],
+    [
+      42618,
+      77325560.74
+    ],
+    [
+      42690,
+      64878864.55
+    ],
+    [
+      42732,
+      46696351.34
+    ],
+    [
+      42745,
+      18977877.3
+    ],
+    [
+      42801,
+      45817023.82
+    ]
+  ],
+  "repayment_dates": [
+    42536,
+    42628,
+    42719,
+    42809,
+    42901,
+    42992,
+    43084,
+    43174,
+    43266,
+    43358,
+    43449,
+    43539,
+    43631,
+    43723,
+    43814,
+    43905,
+    43997,
+    44089,
+    44180,
+    44270,
+    44362,
+    44454,
+    44545,
+    44635,
+    44727,
+    44819,
+    44910,
+    45000
+  ]
+}

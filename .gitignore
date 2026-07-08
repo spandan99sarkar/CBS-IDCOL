@@ -31,3 +31,15 @@ next-env.d.ts
 .idea/
 .vscode/
 .trae/
+.vs/
+
+# .NET
+bin/
+obj/
+*.user
+*.suo
+
+# local dev-only SQLite fallback DB (see Database:UseSqliteForLocalDevelopment)
+cbs-api/host/IDCOL.CBS.Api/*.db
+cbs-api/host/IDCOL.CBS.Api/*.db-shm
+cbs-api/host/IDCOL.CBS.Api/*.db-wal
